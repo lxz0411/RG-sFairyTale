@@ -1,0 +1,633 @@
+[gd_scene load_steps=11 format=3]
+
+
+[ext_resource type="Script" path="res://scripts/test_seek.gd" id="1"]
+
+[ext_resource type="Script" path="res://scripts/seek_pickup.gd" id="2"]
+
+[ext_resource type="Texture2D" path="res://assets/seek/key.svg" id="3"]
+
+[ext_resource type="Texture2D" path="res://assets/seek/potion.svg" id="4"]
+
+[ext_resource type="Texture2D" path="res://assets/seek/feather.svg" id="5"]
+
+[sub_resource type="StyleBoxFlat" id="Panel"]
+bg_color = Color(0.12, 0.2, 0.2, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_left = 12
+corner_radius_bottom_right = 12
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.3, 0.4, 0.36, 1)
+
+[sub_resource type="StyleBoxFlat" id="Slot"]
+bg_color = Color(0.08, 0.15, 0.16, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_left = 12
+corner_radius_bottom_right = 12
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.35, 0.45, 0.38, 1)
+
+[sub_resource type="StyleBoxEmpty" id="PickupEmpty"]
+
+[sub_resource type="StyleBoxFlat" id="Reset"]
+bg_color = Color(0.23, 0.34, 0.31, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_left = 8
+corner_radius_bottom_right = 8
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.42, 0.5, 0.4, 1)
+
+[sub_resource type="StyleBoxFlat" id="ResetHover"]
+bg_color = Color(0.32, 0.44, 0.38, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_left = 8
+corner_radius_bottom_right = 8
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.85, 0.74, 0.45, 1)
+
+[node name="TestSeek" type="Node2D"]
+script = ExtResource("1")
+
+[node name="Background" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(0, 0, 1280, 0, 1280, 800, 0, 800)
+color = Color(0.055, 0.105, 0.12, 1)
+
+[node name="Room" type="Node2D" parent="."]
+position = Vector2(-9.4, -130.6)
+scale = Vector2(1.3, 1.2)
+
+
+[node name="RoomBorder" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(38, 138, 952, 138, 952, 652, 38, 652)
+color = Color(0.32, 0.39, 0.32, 1)
+
+[node name="Wall" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(42, 142, 948, 142, 948, 500, 42, 500)
+color = Color(0.22, 0.34, 0.32, 1)
+
+[node name="WallInset" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(66, 164, 924, 164, 924, 472, 66, 472)
+color = Color(0.25, 0.38, 0.35, 1)
+
+[node name="Wainscot" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(42, 405, 948, 405, 948, 500, 42, 500)
+color = Color(0.16, 0.27, 0.25, 1)
+
+[node name="WallRail" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(42, 402, 948, 402, 948, 410, 42, 410)
+color = Color(0.49, 0.48, 0.32, 1)
+
+[node name="WallPanel0" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(70, 414, 73, 414, 73, 494, 70, 494)
+color = Color(0.23, 0.35, 0.3, 1)
+
+[node name="WallPanel1" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(140, 414, 143, 414, 143, 494, 140, 494)
+color = Color(0.23, 0.35, 0.3, 1)
+
+[node name="WallPanel2" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(210, 414, 213, 414, 213, 494, 210, 494)
+color = Color(0.23, 0.35, 0.3, 1)
+
+[node name="WallPanel3" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(280, 414, 283, 414, 283, 494, 280, 494)
+color = Color(0.23, 0.35, 0.3, 1)
+
+[node name="WallPanel4" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(350, 414, 353, 414, 353, 494, 350, 494)
+color = Color(0.23, 0.35, 0.3, 1)
+
+[node name="WallPanel5" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(420, 414, 423, 414, 423, 494, 420, 494)
+color = Color(0.23, 0.35, 0.3, 1)
+
+[node name="WallPanel6" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(490, 414, 493, 414, 493, 494, 490, 494)
+color = Color(0.23, 0.35, 0.3, 1)
+
+[node name="WallPanel7" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(560, 414, 563, 414, 563, 494, 560, 494)
+color = Color(0.23, 0.35, 0.3, 1)
+
+[node name="WallPanel8" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(630, 414, 633, 414, 633, 494, 630, 494)
+color = Color(0.23, 0.35, 0.3, 1)
+
+[node name="WallPanel9" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(700, 414, 703, 414, 703, 494, 700, 494)
+color = Color(0.23, 0.35, 0.3, 1)
+
+[node name="WallPanel10" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(770, 414, 773, 414, 773, 494, 770, 494)
+color = Color(0.23, 0.35, 0.3, 1)
+
+[node name="WallPanel11" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(840, 414, 843, 414, 843, 494, 840, 494)
+color = Color(0.23, 0.35, 0.3, 1)
+
+[node name="WallPanel12" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(910, 414, 913, 414, 913, 494, 910, 494)
+color = Color(0.23, 0.35, 0.3, 1)
+
+[node name="Floor" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(42, 500, 948, 500, 948, 648, 42, 648)
+color = Color(0.48, 0.36, 0.24, 1)
+
+[node name="FloorSeam0" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(42, 525, 948, 525, 948, 527, 42, 527)
+color = Color(0.34, 0.26, 0.19, 1)
+
+[node name="FloorSeam1" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(42, 555, 948, 555, 948, 557, 42, 557)
+color = Color(0.34, 0.26, 0.19, 1)
+
+[node name="FloorSeam2" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(42, 585, 948, 585, 948, 587, 42, 587)
+color = Color(0.34, 0.26, 0.19, 1)
+
+[node name="FloorSeam3" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(42, 615, 948, 615, 948, 617, 42, 617)
+color = Color(0.34, 0.26, 0.19, 1)
+
+[node name="FloorSeam4" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(42, 645, 948, 645, 948, 647, 42, 647)
+color = Color(0.34, 0.26, 0.19, 1)
+
+[node name="BoardJoint0" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(180, 500, 182, 500, 182, 527, 180, 527)
+color = Color(0.36, 0.27, 0.2, 1)
+
+[node name="BoardJoint1" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(420, 500, 422, 500, 422, 527, 420, 527)
+color = Color(0.36, 0.27, 0.2, 1)
+
+[node name="BoardJoint2" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(700, 500, 702, 500, 702, 527, 700, 527)
+color = Color(0.36, 0.27, 0.2, 1)
+
+[node name="BoardJoint3" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(300, 527, 302, 527, 302, 554, 300, 554)
+color = Color(0.36, 0.27, 0.2, 1)
+
+[node name="BoardJoint4" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(600, 527, 602, 527, 602, 554, 600, 554)
+color = Color(0.36, 0.27, 0.2, 1)
+
+[node name="BoardJoint5" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(840, 527, 842, 527, 842, 554, 840, 554)
+color = Color(0.36, 0.27, 0.2, 1)
+
+[node name="BoardJoint6" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(160, 557, 162, 557, 162, 584, 160, 584)
+color = Color(0.36, 0.27, 0.2, 1)
+
+[node name="BoardJoint7" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(460, 557, 462, 557, 462, 584, 460, 584)
+color = Color(0.36, 0.27, 0.2, 1)
+
+[node name="BoardJoint8" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(730, 557, 732, 557, 732, 584, 730, 584)
+color = Color(0.36, 0.27, 0.2, 1)
+
+[node name="BoardJoint9" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(300, 587, 302, 587, 302, 614, 300, 614)
+color = Color(0.36, 0.27, 0.2, 1)
+
+[node name="BoardJoint10" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(600, 587, 602, 587, 602, 614, 600, 614)
+color = Color(0.36, 0.27, 0.2, 1)
+
+[node name="BoardJoint11" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(860, 587, 862, 587, 862, 614, 860, 614)
+color = Color(0.36, 0.27, 0.2, 1)
+
+[node name="BoardJoint12" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(180, 617, 182, 617, 182, 644, 180, 644)
+color = Color(0.36, 0.27, 0.2, 1)
+
+[node name="BoardJoint13" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(460, 617, 462, 617, 462, 644, 460, 644)
+color = Color(0.36, 0.27, 0.2, 1)
+
+[node name="BoardJoint14" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(720, 617, 722, 617, 722, 644, 720, 644)
+color = Color(0.36, 0.27, 0.2, 1)
+
+[node name="Window" type="Node2D" parent="Room"]
+
+
+[node name="Frame" type="Polygon2D" parent="Room/Window"]
+polygon = PackedVector2Array(111, 188, 331, 188, 331, 387, 111, 387)
+color = Color(0.67, 0.54, 0.33, 1)
+
+[node name="NightSky" type="Polygon2D" parent="Room/Window"]
+polygon = PackedVector2Array(122, 199, 320, 199, 320, 376, 122, 376)
+color = Color(0.1, 0.23, 0.29, 1)
+
+[node name="Hill" type="Polygon2D" parent="Room/Window"]
+polygon = PackedVector2Array(122, 331, 166, 296, 213, 322, 258, 280, 320, 325, 320, 376, 122, 376)
+color = Color(0.15, 0.32, 0.33, 1)
+
+[node name="Moon" type="Polygon2D" parent="Room/Window"]
+polygon = PackedVector2Array(289.0, 237.0, 288.5772761688711, 241.29198708435482, 287.3253497152483, 245.41903551203197, 285.292331470656, 249.22254512643124, 282.55634918610406, 252.55634918610406, 279.22254512643127, 255.292331470656, 275.419035512032, 257.3253497152483, 271.29198708435484, 258.5772761688711, 267.0, 259.0, 262.70801291564516, 258.5772761688711, 258.580964487968, 257.3253497152483, 254.77745487356876, 255.292331470656, 251.44365081389594, 252.55634918610406, 248.707668529344, 249.22254512643124, 246.6746502847517, 245.41903551203197, 245.42272383112893, 241.29198708435484, 245.0, 237.0, 245.42272383112893, 232.70801291564518, 246.6746502847517, 228.58096448796803, 248.707668529344, 224.77745487356876, 251.44365081389594, 221.44365081389594, 254.77745487356876, 218.707668529344, 258.580964487968, 216.6746502847517, 262.70801291564516, 215.42272383112893, 267.0, 215.0, 271.29198708435484, 215.42272383112893, 275.419035512032, 216.6746502847517, 279.2225451264312, 218.707668529344, 282.55634918610406, 221.44365081389594, 285.292331470656, 224.77745487356876, 287.3253497152483, 228.580964487968, 288.5772761688711, 232.70801291564516)
+color = Color(0.94, 0.85, 0.59, 1)
+
+[node name="Star0" type="Polygon2D" parent="Room/Window"]
+polygon = PackedVector2Array(149, 224, 152, 224, 152, 227, 149, 227)
+color = Color(0.86, 0.86, 0.66, 1)
+
+[node name="Star1" type="Polygon2D" parent="Room/Window"]
+polygon = PackedVector2Array(184, 253, 187, 253, 187, 256, 184, 256)
+color = Color(0.86, 0.86, 0.66, 1)
+
+[node name="Star2" type="Polygon2D" parent="Room/Window"]
+polygon = PackedVector2Array(231, 215, 234, 215, 234, 218, 231, 218)
+color = Color(0.86, 0.86, 0.66, 1)
+
+[node name="Star3" type="Polygon2D" parent="Room/Window"]
+polygon = PackedVector2Array(299, 275, 302, 275, 302, 278, 299, 278)
+color = Color(0.86, 0.86, 0.66, 1)
+
+[node name="CrossV" type="Polygon2D" parent="Room/Window"]
+polygon = PackedVector2Array(215, 194, 223, 194, 223, 383, 215, 383)
+color = Color(0.67, 0.54, 0.33, 1)
+
+[node name="CrossH" type="Polygon2D" parent="Room/Window"]
+polygon = PackedVector2Array(118, 280, 325, 280, 325, 287, 118, 287)
+color = Color(0.67, 0.54, 0.33, 1)
+
+[node name="Sill" type="Polygon2D" parent="Room/Window"]
+polygon = PackedVector2Array(100, 384, 342, 384, 342, 396, 100, 396)
+color = Color(0.75, 0.62, 0.39, 1)
+
+[node name="Light" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(122, 397, 320, 397, 487, 581, 123, 581)
+color = Color(0.9, 0.8, 0.53, 0.09)
+
+[node name="RugBorder" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(301, 534, 657, 534, 710, 616, 252, 616)
+color = Color(0.29, 0.4, 0.36, 1)
+
+[node name="Rug" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(309, 542, 648, 542, 690, 607, 271, 607)
+color = Color(0.37, 0.49, 0.42, 1)
+
+[node name="DeskLegLeft" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(394, 469, 411, 469, 411, 569, 394, 569)
+color = Color(0.24, 0.19, 0.14, 1)
+
+[node name="DeskLegRight" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(632, 469, 649, 469, 649, 569, 632, 569)
+color = Color(0.24, 0.19, 0.14, 1)
+
+[node name="DeskFront" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(382, 457, 661, 457, 661, 504, 382, 504)
+color = Color(0.4, 0.28, 0.18, 1)
+
+[node name="DeskDrawer" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(452, 469, 586, 469, 586, 495, 452, 495)
+color = Color(0.51, 0.37, 0.23, 1)
+
+[node name="DrawerHandle" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(508, 480, 532, 480, 532, 484, 508, 484)
+color = Color(0.81, 0.66, 0.36, 1)
+
+[node name="DeskTop" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(400, 418, 646, 418, 674, 458, 377, 458)
+color = Color(0.69, 0.51, 0.3, 1)
+
+[node name="DeskLip" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(377, 458, 674, 458, 674, 466, 377, 466)
+color = Color(0.77, 0.59, 0.36, 1)
+
+[node name="Paper" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(417, 430, 471, 428, 481, 448, 423, 450)
+color = Color(0.82, 0.78, 0.6, 1)
+
+[node name="ShelfBack" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(728, 184, 891, 184, 891, 511, 728, 511)
+color = Color(0.13, 0.22, 0.2, 1)
+
+[node name="ShelfLeft" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(717, 180, 729, 180, 729, 518, 717, 518)
+color = Color(0.42, 0.31, 0.21, 1)
+
+[node name="ShelfRight" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(890, 180, 902, 180, 902, 518, 890, 518)
+color = Color(0.42, 0.31, 0.21, 1)
+
+[node name="ShelfBoard0" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(713, 180, 906, 180, 906, 192, 713, 192)
+color = Color(0.61, 0.45, 0.28, 1)
+
+[node name="ShelfBoard1" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(713, 276, 906, 276, 906, 288, 713, 288)
+color = Color(0.61, 0.45, 0.28, 1)
+
+[node name="ShelfBoard2" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(713, 386, 906, 386, 906, 398, 713, 398)
+color = Color(0.61, 0.45, 0.28, 1)
+
+[node name="ShelfBoard3" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(713, 506, 906, 506, 906, 518, 713, 518)
+color = Color(0.61, 0.45, 0.28, 1)
+
+[node name="Book0" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(741, 226, 757, 226, 757, 276, 741, 276)
+color = Color(0.5, 0.32, 0.27, 1)
+
+[node name="BookBand0" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(743, 234, 755, 234, 755, 237, 743, 237)
+color = Color(0.79, 0.69, 0.44, 1)
+
+[node name="Book1" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(760, 215, 776, 215, 776, 276, 760, 276)
+color = Color(0.68, 0.55, 0.32, 1)
+
+[node name="BookBand1" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(762, 223, 774, 223, 774, 226, 762, 226)
+color = Color(0.79, 0.69, 0.44, 1)
+
+[node name="Book2" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(782, 221, 798, 221, 798, 276, 782, 276)
+color = Color(0.29, 0.46, 0.43, 1)
+
+[node name="BookBand2" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(784, 229, 796, 229, 796, 232, 784, 232)
+color = Color(0.79, 0.69, 0.44, 1)
+
+[node name="Book3" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(808, 210, 824, 210, 824, 276, 808, 276)
+color = Color(0.52, 0.48, 0.34, 1)
+
+[node name="BookBand3" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(810, 218, 822, 218, 822, 221, 810, 221)
+color = Color(0.79, 0.69, 0.44, 1)
+
+[node name="Book4" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(835, 227, 851, 227, 851, 276, 835, 276)
+color = Color(0.4, 0.34, 0.43, 1)
+
+[node name="BookBand4" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(837, 235, 849, 235, 849, 238, 837, 238)
+color = Color(0.79, 0.69, 0.44, 1)
+
+[node name="BooksLow1" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(751, 479, 837, 479, 837, 491, 751, 491)
+color = Color(0.53, 0.39, 0.28, 1)
+
+[node name="BooksLow2" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(760, 465, 839, 465, 839, 478, 760, 478)
+color = Color(0.52, 0.57, 0.44, 1)
+
+[node name="BooksLow3" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(747, 453, 829, 453, 829, 464, 747, 464)
+color = Color(0.66, 0.52, 0.33, 1)
+
+[node name="Pot" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(155, 462, 208, 462, 208, 505, 155, 505)
+color = Color(0.61, 0.39, 0.26, 1)
+
+[node name="PotLip" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(149, 458, 214, 458, 214, 468, 149, 468)
+color = Color(0.73, 0.48, 0.3, 1)
+
+[node name="Leaf0" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(180, 461, 137, 435, 131, 405, 168, 425)
+color = Color(0.4, 0.57, 0.35, 1)
+
+[node name="Leaf1" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(180, 459, 179, 405, 198, 386, 201, 424)
+color = Color(0.4, 0.57, 0.35, 1)
+
+[node name="Leaf2" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(185, 455, 211, 418, 237, 414, 219, 441)
+color = Color(0.4, 0.57, 0.35, 1)
+
+[node name="PictureFrame" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(438, 203, 573, 203, 573, 324, 438, 324)
+color = Color(0.64, 0.53, 0.34, 1)
+
+[node name="PictureMat" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(446, 211, 565, 211, 565, 316, 446, 316)
+color = Color(0.16, 0.27, 0.26, 1)
+
+[node name="PictureMountain" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(457, 300, 488, 249, 508, 277, 528, 238, 555, 300)
+color = Color(0.57, 0.65, 0.5, 1)
+
+[node name="CandleBase" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(607, 439, 636, 439, 636, 445, 607, 445)
+color = Color(0.43, 0.33, 0.21, 1)
+
+[node name="Candle" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(617, 403, 627, 403, 627, 439, 617, 439)
+color = Color(0.86, 0.78, 0.55, 1)
+
+[node name="Flame" type="Polygon2D" parent="Room"]
+polygon = PackedVector2Array(622, 386, 628, 398, 623, 405, 617, 399)
+color = Color(1, 0.75, 0.34, 1)
+
+[node name="Pickups" type="Node2D" parent="Room"]
+
+
+[node name="GoldenKey" type="Button" parent="Room/Pickups"]
+offset_left = 505.0
+offset_top = 393.0
+offset_right = 581.0
+offset_bottom = 469.0
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("PickupEmpty")
+theme_override_styles/hover = SubResource("PickupEmpty")
+theme_override_styles/pressed = SubResource("PickupEmpty")
+theme_override_styles/focus = SubResource("PickupEmpty")
+theme_override_styles/disabled = SubResource("PickupEmpty")
+theme_override_styles/hover_pressed = SubResource("PickupEmpty")
+script = ExtResource("2")
+item_id = &"key"
+item_name = "金钥匙"
+item_description = "一把温暖的旧钥匙，也许能打开某扇门。"
+item_icon = ExtResource("3")
+
+[node name="Icon" type="TextureRect" parent="Room/Pickups/GoldenKey"]
+offset_left = 3.0
+offset_top = 3.0
+offset_right = 73.0
+offset_bottom = 73.0
+mouse_filter = 2
+texture = ExtResource("3")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="MagicPotion" type="Button" parent="Room/Pickups"]
+offset_left = 812.0
+offset_top = 300.0
+offset_right = 888.0
+offset_bottom = 376.0
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("PickupEmpty")
+theme_override_styles/hover = SubResource("PickupEmpty")
+theme_override_styles/pressed = SubResource("PickupEmpty")
+theme_override_styles/focus = SubResource("PickupEmpty")
+theme_override_styles/disabled = SubResource("PickupEmpty")
+theme_override_styles/hover_pressed = SubResource("PickupEmpty")
+script = ExtResource("2")
+item_id = &"potion"
+item_name = "魔法药水"
+item_description = "瓶子里摇曳着淡紫色的微光。"
+item_icon = ExtResource("4")
+
+[node name="Icon" type="TextureRect" parent="Room/Pickups/MagicPotion"]
+offset_left = 3.0
+offset_top = 3.0
+offset_right = 73.0
+offset_bottom = 73.0
+mouse_filter = 2
+texture = ExtResource("4")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="WhiteFeather" type="Button" parent="Room/Pickups"]
+offset_left = 247.0
+offset_top = 516.0
+offset_right = 323.0
+offset_bottom = 592.0
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("PickupEmpty")
+theme_override_styles/hover = SubResource("PickupEmpty")
+theme_override_styles/pressed = SubResource("PickupEmpty")
+theme_override_styles/focus = SubResource("PickupEmpty")
+theme_override_styles/disabled = SubResource("PickupEmpty")
+theme_override_styles/hover_pressed = SubResource("PickupEmpty")
+script = ExtResource("2")
+item_id = &"feather"
+item_name = "白羽毛"
+item_description = "窗边落下的羽毛，轻得像一个秘密。"
+item_icon = ExtResource("5")
+
+[node name="Icon" type="TextureRect" parent="Room/Pickups/WhiteFeather"]
+offset_left = 3.0
+offset_top = 3.0
+offset_right = 73.0
+offset_bottom = 73.0
+mouse_filter = 2
+texture = ExtResource("5")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="HUD" type="Control" parent="."]
+layout_mode = 0
+offset_right = 1280.0
+offset_bottom = 800.0
+mouse_filter = 2
+
+[node name="Backpack" type="Panel" parent="HUD"]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 40.0
+offset_top = -126.0
+offset_right = -40.0
+offset_bottom = -20.0
+theme_override_styles/panel = SubResource("Panel")
+
+[node name="Slots" type="HBoxContainer" parent="HUD/Backpack"]
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -142.0
+offset_top = 11.0
+offset_right = 142.0
+offset_bottom = 95.0
+theme_override_constants/separation = 16
+
+[node name="Slot1" type="Panel" parent="HUD/Backpack/Slots"]
+custom_minimum_size = Vector2(84, 84)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("Slot")
+
+[node name="Icon" type="TextureRect" parent="HUD/Backpack/Slots/Slot1"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 9.0
+offset_top = 9.0
+offset_right = -9.0
+offset_bottom = -9.0
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Slot2" type="Panel" parent="HUD/Backpack/Slots"]
+custom_minimum_size = Vector2(84, 84)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("Slot")
+
+[node name="Icon" type="TextureRect" parent="HUD/Backpack/Slots/Slot2"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 9.0
+offset_top = 9.0
+offset_right = -9.0
+offset_bottom = -9.0
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Slot3" type="Panel" parent="HUD/Backpack/Slots"]
+custom_minimum_size = Vector2(84, 84)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("Slot")
+
+[node name="Icon" type="TextureRect" parent="HUD/Backpack/Slots/Slot3"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 9.0
+offset_top = 9.0
+offset_right = -9.0
+offset_bottom = -9.0
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Reset" type="Button" parent="HUD"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -120.0
+offset_top = -99.0
+offset_right = -68.0
+offset_bottom = -47.0
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("Reset")
+theme_override_styles/hover = SubResource("ResetHover")
+theme_override_styles/pressed = SubResource("ResetHover")
+
+[node name="ArrowArc" type="Line2D" parent="HUD/Reset"]
+points = PackedVector2Array(36, 22, 34, 17, 29, 14, 23, 14, 18, 17, 15, 22, 15, 28, 18, 33, 23, 36, 29, 36, 34, 33)
+width = 2.5
+default_color = Color(0.88, 0.85, 0.66, 1)
+antialiased = true
+
+[node name="ArrowHead" type="Polygon2D" parent="HUD/Reset"]
+polygon = PackedVector2Array(30, 22, 40, 22, 35, 29)
+color = Color(0.88, 0.85, 0.66, 1)
