@@ -1,0 +1,125 @@
+[gd_scene load_steps=2 format=3]
+
+[sub_resource type="StyleBoxFlat" id="Slot"]
+bg_color = Color(0.08, 0.15, 0.16, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_left = 12
+corner_radius_bottom_right = 12
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.35, 0.45, 0.38, 1)
+
+[node name="Backpack" type="Control"]
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -124.0
+offset_top = 40.0
+offset_right = -40.0
+offset_bottom = -40.0
+mouse_filter = 2
+
+[node name="Slots" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+theme_override_constants/separation = 75
+
+[node name="Slot1" type="Panel" parent="Slots"]
+custom_minimum_size = Vector2(84, 84)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("Slot")
+
+[node name="Icon" type="TextureRect" parent="Slots/Slot1"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 9.0
+offset_top = 9.0
+offset_right = -9.0
+offset_bottom = -9.0
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Slot2" type="Panel" parent="Slots"]
+custom_minimum_size = Vector2(84, 84)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("Slot")
+
+[node name="Icon" type="TextureRect" parent="Slots/Slot2"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 9.0
+offset_top = 9.0
+offset_right = -9.0
+offset_bottom = -9.0
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Slot3" type="Panel" parent="Slots"]
+custom_minimum_size = Vector2(84, 84)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("Slot")
+
+[node name="Icon" type="TextureRect" parent="Slots/Slot3"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 9.0
+offset_top = 9.0
+offset_right = -9.0
+offset_bottom = -9.0
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Slot4" type="Panel" parent="Slots"]
+custom_minimum_size = Vector2(84, 84)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("Slot")
+
+[node name="Icon" type="TextureRect" parent="Slots/Slot4"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 9.0
+offset_top = 9.0
+offset_right = -9.0
+offset_bottom = -9.0
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Slot5" type="Panel" parent="Slots"]
+custom_minimum_size = Vector2(84, 84)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("Slot")
+
+[node name="Icon" type="TextureRect" parent="Slots/Slot5"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 9.0
+offset_top = 9.0
+offset_right = -9.0
+offset_bottom = -9.0
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
