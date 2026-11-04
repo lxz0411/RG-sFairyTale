@@ -106,6 +106,8 @@ func _process(delta: float) -> void:
 	hovered = -1
 	if not $Transition.visible and phase != Phase.WALK and phase != Phase.COMPLETE:
 		hovered = branch_at(point)
+		if not $Guide.allows_point(point):
+			hovered = -1
 	for index in range(branches.size()):
 		var active: bool = not $Transition.visible and phase == Phase.EDIT and (hovered == index or held == index or rotating_branch == index)
 		var material := branches[index].material as ShaderMaterial
@@ -113,7 +115,7 @@ func _process(delta: float) -> void:
 		material.set_shader_parameter("glow_strength", move_toward(strength, 1.0 if active else 0.0, delta * 8.0))
 		var invalid := held == index and not INVENTORY_AREA.has_point(point) and not BUILD_AREA.has_point(branches[index].position)
 		material.set_shader_parameter("glow_color", Color(1.0, 0.45, 0.35, 0.55) if invalid else Color(1.0, 0.92, 0.72, 0.55))
-	var over_button := icon_hit($ResetIcon, point) or icon_hit($PlayIcon, point)
+	var over_button: bool = $Guide.allows_point(point) and (icon_hit($ResetIcon, point) or icon_hit($PlayIcon, point))
 	Input.set_default_cursor_shape(Input.CURSOR_POINTING_HAND if over_button or hovered >= 0 else Input.CURSOR_ARROW)
 	queue_redraw()
 
@@ -143,6 +145,8 @@ func _unhandled_input(event: InputEvent) -> void:
 	if $Transition.visible:
 		return
 	var point: Vector2 = event.position if event is InputEventMouse else get_local_mouse_position()
+	if event is InputEventMouseButton and event.pressed and not $Guide.allows_point(point):
+		return
 	if event is InputEventMouseMotion:
 		if rotating_branch >= 0:
 			var branch := branches[rotating_branch]
@@ -165,6 +169,7 @@ func _unhandled_input(event: InputEvent) -> void:
 				if rotating_branch >= 0:
 					saved_rotations[rotating_branch] = branches[rotating_branch].rotation
 				rotating_branch = -1
+				$Guide.rotation_released()
 		elif event.pressed and event.button_index in [MOUSE_BUTTON_WHEEL_UP, MOUSE_BUTTON_WHEEL_DOWN]:
 			rotate_branch(deg_to_rad(-5 if event.button_index == MOUSE_BUTTON_WHEEL_UP else 5))
 	elif event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
@@ -175,9 +180,12 @@ func _unhandled_input(event: InputEvent) -> void:
 			held = -1
 		rotating_branch = -1
 		selected_branch = -1
+		$Guide.sync_progress()
 
 func press_at(point: Vector2) -> void:
 	if $Transition.visible or phase == Phase.COMPLETE:
+		return
+	if not $Guide.allows_point(point):
 		return
 	if icon_hit($ResetIcon, point):
 		reset_walk()
@@ -198,6 +206,8 @@ func press_at(point: Vector2) -> void:
 		begin_drag(index, point)
 
 func collect_branch(index: int) -> void:
+	if not $Guide.allows(&"collect"):
+		return
 	var branch := branches[index]
 	var tree_transform := branch.transform
 	locations[index] = Location.INVENTORY
@@ -213,6 +223,7 @@ func collect_branch(index: int) -> void:
 	pickup_tweens[index].tween_property(branch, "scale", Vector2.ONE * 0.32, 0.3)
 	pulse_branch(index)
 	$PickupSound.play()
+	$Guide.sync_progress()
 
 func pulse_branch(index: int) -> void:
 	if feedback[index] != null:
@@ -232,6 +243,8 @@ func return_to_inventory(index: int) -> void:
 
 func begin_drag(index: int, point: Vector2) -> void:
 	if phase != Phase.EDIT or $Transition.visible:
+		return
+	if not $Guide.allows(&"drag"):
 		return
 	if pickup_tweens[index] != null and pickup_tweens[index].is_running():
 		pickup_tweens[index].kill()
@@ -263,7 +276,7 @@ func drop_at(point: Vector2) -> void:
 		saved_rotations[index] = branch.rotation
 		locations[index] = Location.INVENTORY
 		return_to_inventory(index)
-	elif BUILD_AREA.has_point(branch.position):
+	elif BUILD_AREA.has_point(branch.position) and (not $Guide.enabled or $Guide.step != $Guide.Step.PLACE or $Guide.DROP_AREA.has_point(branch.position)):
 		locations[index] = Location.BRIDGE
 		saved_rotations[index] = branch.rotation
 		pulse_branch(index)
@@ -271,9 +284,12 @@ func drop_at(point: Vector2) -> void:
 	else:
 		branch.transform = original_transform
 		locations[index] = original_location
+	$Guide.sync_progress()
 
 func begin_rotation(point: Vector2) -> void:
 	if phase != Phase.EDIT or $Transition.visible:
+		return
+	if not $Guide.allows(&"rotate"):
 		return
 	var index := branch_at(point)
 	if index >= 0 and (locations[index] == Location.BRIDGE or held == index):
@@ -284,11 +300,16 @@ func begin_rotation(point: Vector2) -> void:
 func rotate_branch(angle: float) -> void:
 	if phase != Phase.EDIT or $Transition.visible or selected_branch < 0:
 		return
+	if not $Guide.allows(&"rotate"):
+		return
 	if locations[selected_branch] != Location.BRIDGE and held != selected_branch:
 		return
 	var branch := branches[selected_branch]
+	var previous_angle := branch.rotation
 	branch.rotation = wrapf(branch.rotation + angle, -PI, PI)
 	saved_rotations[selected_branch] = branch.rotation
+	if rotating_branch >= 0:
+		$Guide.record_right_rotation(angle_difference(previous_angle, branch.rotation))
 
 func sync_plank_surfaces() -> void:
 	for index in range(branches.size()):
@@ -316,6 +337,8 @@ func sync_plank_surfaces() -> void:
 func start_walk() -> void:
 	if phase != Phase.EDIT or held >= 0 or rotating_branch >= 0:
 		return
+	if not $Guide.allows(&"start"):
+		return
 	sync_plank_surfaces()
 	traveler.position = START
 	traveler.velocity = Vector2.ZERO
@@ -324,6 +347,7 @@ func start_walk() -> void:
 	phase = Phase.WALK
 	selected_branch = -1
 	$PlayIcon.texture = play_selected
+	$Guide.finish()
 
 func touches_raised_fork(collision: KinematicCollision2D) -> bool:
 	var body := collision.get_collider()

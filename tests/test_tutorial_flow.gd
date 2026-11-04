@@ -22,6 +22,7 @@ func place(index: int, start: Vector2, angle: float, flat_side_up: bool = true) 
 
 func run() -> void:
 	scene = load("res://scenes/tutorial_backdrop.tscn").instantiate()
+	scene.get_node("Guide").enabled = false
 	root.add_child(scene)
 	await scene.get_node("Transition").revealed
 	await process_frame

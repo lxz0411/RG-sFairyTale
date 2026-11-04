@@ -25,6 +25,7 @@ func motion(point: Vector2) -> void:
 
 func run() -> void:
 	var scene = load("res://scenes/tutorial_backdrop.tscn").instantiate()
+	scene.get_node("Guide").enabled = false
 	root.add_child(scene)
 	await scene.get_node("Transition").revealed
 	if not require(scene.has_method("rotate_branch"), "Tutorial lacks physics-style selected-item rotation"):

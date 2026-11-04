@@ -15,6 +15,8 @@
 [ext_resource type="PackedScene" path="res://scenes/circle_transition.tscn" id="transition"]
 [ext_resource type="Texture2D" uid="uid://bodylyoeg2cl4" path="res://assets/tutorial/final/traveler.png" id="traveler"]
 
+[ext_resource type="PackedScene" path="res://scenes/tutorial_guide.tscn" id="guide"]
+
 [sub_resource type="CircleShape2D" id="star_trigger"]
 radius = 19.0
 
@@ -131,5 +133,9 @@ volume_db = -22.0
 
 [node name="Transition" parent="." unique_id=339211424 instance=ExtResource("transition")]
 
+[node name="Guide" parent="." instance=ExtResource("guide")]
+
 [connection signal="area_entered" from="Traveler/StarDetector" to="." method="_on_star_detector_area_entered"]
 [connection signal="covered" from="Transition" to="." method="_on_transition_covered"]
+
+[connection signal="revealed" from="Transition" to="Guide" method="_on_revealed"]
