@@ -9,14 +9,21 @@
 [ext_resource type="AudioStream" uid="uid://c65rbgguv3sf3" path="res://assets/tutorial/final/place.wav" id="place_sound"]
 [ext_resource type="Texture2D" uid="uid://wmd4povc3eqf" path="res://assets/tutorial/final/play.png" id="play"]
 [ext_resource type="Texture2D" uid="uid://ccorkn02fh60k" path="res://assets/tutorial/final/reset.png" id="reset"]
-[ext_resource type="Script" path="res://scripts/tutorial_backdrop.gd" id="script"]
+[ext_resource type="Script" uid="uid://di8xomh8lnq43" path="res://scripts/tutorial_backdrop.gd" id="script"]
 [ext_resource type="Texture2D" uid="uid://b26piulxyah5c" path="res://assets/tutorial/final/star.png" id="star"]
 [ext_resource type="AudioStream" uid="uid://58htdnhccwp3" path="res://assets/tutorial/final/step.wav" id="step_sound"]
+[ext_resource type="PackedScene" path="res://scenes/circle_transition.tscn" id="transition"]
 [ext_resource type="Texture2D" uid="uid://bodylyoeg2cl4" path="res://assets/tutorial/final/traveler.png" id="traveler"]
+
+[sub_resource type="CircleShape2D" id="star_trigger"]
+radius = 19.0
 
 [sub_resource type="CapsuleShape2D" id="feet"]
 radius = 8.0
 height = 26.0
+
+[sub_resource type="RectangleShape2D" id="star_detector"]
+size = Vector2(60, 155)
 
 [node name="TutorialBackdrop" type="Node2D" unique_id=1506146982]
 script = ExtResource("script")
@@ -46,6 +53,15 @@ position = Vector2(1018, 344)
 texture = ExtResource("star")
 centered = false
 
+[node name="Trigger" type="Area2D" parent="GoalStar" unique_id=1178120014 groups=["star"]]
+position = Vector2(23, 20.5)
+collision_layer = 2
+collision_mask = 0
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GoalStar/Trigger" unique_id=254250215]
+shape = SubResource("star_trigger")
+
 [node name="Traveler" type="CharacterBody2D" parent="." unique_id=2124125260]
 z_index = 3
 position = Vector2(275, 328)
@@ -61,6 +77,15 @@ shape = SubResource("feet")
 position = Vector2(-252, -173)
 texture = ExtResource("traveler")
 centered = false
+
+[node name="StarDetector" type="Area2D" parent="Traveler" unique_id=1698591400]
+position = Vector2(0, -77.5)
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Traveler/StarDetector" unique_id=1642203645]
+shape = SubResource("star_detector")
 
 [node name="Inventory" type="Sprite2D" parent="." unique_id=1338756118]
 position = Vector2(1111, 0)
@@ -103,3 +128,8 @@ volume_db = -29.0
 [node name="CompleteSound" type="AudioStreamPlayer" parent="." unique_id=1453801426]
 stream = ExtResource("complete_sound")
 volume_db = -22.0
+
+[node name="Transition" parent="." unique_id=339211424 instance=ExtResource("transition")]
+
+[connection signal="area_entered" from="Traveler/StarDetector" to="." method="_on_star_detector_area_entered"]
+[connection signal="covered" from="Transition" to="." method="_on_transition_covered"]

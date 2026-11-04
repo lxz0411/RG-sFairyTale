@@ -23,6 +23,7 @@ func place(index: int, start: Vector2, angle: float, flat_side_up: bool = true) 
 func run() -> void:
 	scene = load("res://scenes/tutorial_backdrop.tscn").instantiate()
 	root.add_child(scene)
+	await scene.get_node("Transition").revealed
 	await process_frame
 	check(scene.traveler.visible and scene.phase == scene.Phase.EDIT, "Character must wait at spawn")
 	scene.press_at(Vector2(940, 240))
@@ -46,12 +47,13 @@ func run() -> void:
 	place(1, Vector2(313, 321), 0.18)
 	var before: Transform2D = scene.branches[0].transform
 	var mid: Vector2 = (scene.SHAFTS[0][0] + scene.SHAFTS[0][1]) * 0.5 - scene.branches[0].texture.get_size() * 0.5
-	scene.begin_rotation(scene.branches[0].to_global(mid))
+	var grip: Vector2 = scene.branches[0].to_global(mid)
+	scene.begin_rotation(grip)
 	check(scene.rotating_branch == 0, "Right mouse could not select placed shaft")
 	var motion := InputEventMouseMotion.new()
-	motion.relative = Vector2(10, 0)
+	motion.position = scene.branches[0].position + (grip - scene.branches[0].position).rotated(-0.12)
 	scene._unhandled_input(motion)
-	check(scene.branches[0].rotation != before.get_rotation(), "Continuous rotation failed")
+	check(absf(angle_difference(before.get_rotation() - 0.12, scene.branches[0].rotation)) < 0.001, "Rotation must follow the pointer around the branch pivot")
 	var release := InputEventMouseButton.new()
 	release.button_index = MOUSE_BUTTON_RIGHT
 	release.pressed = false
