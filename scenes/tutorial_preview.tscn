@@ -1,0 +1,58 @@
+[gd_scene load_steps=10 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/tutorial/final/background.png" id="background"]
+[ext_resource type="Texture2D" path="res://assets/tutorial/final/branch_vertical.png" id="branch_vertical"]
+[ext_resource type="Texture2D" path="res://assets/tutorial/final/branch_horizontal.png" id="branch_horizontal"]
+[ext_resource type="Texture2D" path="res://assets/tutorial/final/door.png" id="door"]
+[ext_resource type="Texture2D" path="res://assets/tutorial/final/star.png" id="star"]
+[ext_resource type="Texture2D" path="res://assets/tutorial/final/traveler.png" id="traveler"]
+[ext_resource type="Texture2D" path="res://assets/tutorial/final/inventory.png" id="inventory"]
+[ext_resource type="Texture2D" path="res://assets/tutorial/final/reset.png" id="reset"]
+[ext_resource type="Texture2D" path="res://assets/tutorial/final/play.png" id="play"]
+
+[node name="TutorialPreview" type="Node2D"]
+
+[node name="Background" type="Sprite2D" parent="."]
+position = Vector2(0, 0)
+texture = ExtResource("background")
+centered = false
+
+[node name="BranchVertical" type="Sprite2D" parent="."]
+position = Vector2(923, 34)
+texture = ExtResource("branch_vertical")
+centered = false
+
+[node name="BranchHorizontal" type="Sprite2D" parent="."]
+position = Vector2(735, 64)
+texture = ExtResource("branch_horizontal")
+centered = false
+
+[node name="ExitDoor" type="Sprite2D" parent="."]
+position = Vector2(1057, 236)
+texture = ExtResource("door")
+centered = false
+
+[node name="GoalStar" type="Sprite2D" parent="."]
+position = Vector2(1018, 344)
+texture = ExtResource("star")
+centered = false
+
+[node name="Traveler" type="Sprite2D" parent="."]
+position = Vector2(23, 155)
+texture = ExtResource("traveler")
+centered = false
+
+[node name="Inventory" type="Sprite2D" parent="."]
+position = Vector2(1111, 0)
+texture = ExtResource("inventory")
+centered = false
+
+[node name="ResetIcon" type="Sprite2D" parent="."]
+position = Vector2(29, 27)
+texture = ExtResource("reset")
+centered = false
+
+[node name="PlayIcon" type="Sprite2D" parent="."]
+position = Vector2(101, 14)
+texture = ExtResource("play")
+centered = false
