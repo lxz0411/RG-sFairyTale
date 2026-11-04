@@ -1,0 +1,105 @@
+[gd_scene format=3 uid="uid://yfwpcden1q4r"]
+
+[ext_resource type="Texture2D" uid="uid://coqgbib7dyfbc" path="res://assets/tutorial/final/background.png" id="background"]
+[ext_resource type="Texture2D" uid="uid://k007f1kfjhdb" path="res://assets/tutorial/final/branch_horizontal.png" id="branch_horizontal"]
+[ext_resource type="Texture2D" uid="uid://bypafmltddidr" path="res://assets/tutorial/final/branch_vertical.png" id="branch_vertical"]
+[ext_resource type="AudioStream" uid="uid://b8r5v342pn72n" path="res://assets/tutorial/final/complete.wav" id="complete_sound"]
+[ext_resource type="Texture2D" uid="uid://65i712d8vpcu" path="res://assets/tutorial/final/door.png" id="door"]
+[ext_resource type="Texture2D" uid="uid://br04maasd1gij" path="res://assets/tutorial/final/inventory.png" id="inventory"]
+[ext_resource type="AudioStream" uid="uid://c65rbgguv3sf3" path="res://assets/tutorial/final/place.wav" id="place_sound"]
+[ext_resource type="Texture2D" uid="uid://wmd4povc3eqf" path="res://assets/tutorial/final/play.png" id="play"]
+[ext_resource type="Texture2D" uid="uid://ccorkn02fh60k" path="res://assets/tutorial/final/reset.png" id="reset"]
+[ext_resource type="Script" path="res://scripts/tutorial_backdrop.gd" id="script"]
+[ext_resource type="Texture2D" uid="uid://b26piulxyah5c" path="res://assets/tutorial/final/star.png" id="star"]
+[ext_resource type="AudioStream" uid="uid://58htdnhccwp3" path="res://assets/tutorial/final/step.wav" id="step_sound"]
+[ext_resource type="Texture2D" uid="uid://bodylyoeg2cl4" path="res://assets/tutorial/final/traveler.png" id="traveler"]
+
+[sub_resource type="CapsuleShape2D" id="feet"]
+radius = 8.0
+height = 26.0
+
+[node name="TutorialBackdrop" type="Node2D" unique_id=1506146982]
+script = ExtResource("script")
+
+[node name="Background" type="Sprite2D" parent="." unique_id=1706266298]
+z_index = -10
+texture = ExtResource("background")
+centered = false
+
+[node name="BranchVertical" type="Sprite2D" parent="." unique_id=1445103112]
+position = Vector2(923, 34)
+texture = ExtResource("branch_vertical")
+centered = false
+
+[node name="BranchHorizontal" type="Sprite2D" parent="." unique_id=684804749]
+position = Vector2(735, 64)
+texture = ExtResource("branch_horizontal")
+centered = false
+
+[node name="ExitDoor" type="Sprite2D" parent="." unique_id=163971730]
+position = Vector2(1057, 236)
+texture = ExtResource("door")
+centered = false
+
+[node name="GoalStar" type="Sprite2D" parent="." unique_id=226518653]
+position = Vector2(1018, 344)
+texture = ExtResource("star")
+centered = false
+
+[node name="Traveler" type="CharacterBody2D" parent="." unique_id=2124125260]
+z_index = 3
+position = Vector2(275, 328)
+floor_constant_speed = true
+floor_max_angle = 1.134464
+floor_snap_length = 12.0
+
+[node name="Feet" type="CollisionShape2D" parent="Traveler" unique_id=2129266536]
+position = Vector2(0, -13)
+shape = SubResource("feet")
+
+[node name="Art" type="Sprite2D" parent="Traveler" unique_id=1916347762]
+position = Vector2(-252, -173)
+texture = ExtResource("traveler")
+centered = false
+
+[node name="Inventory" type="Sprite2D" parent="." unique_id=1338756118]
+position = Vector2(1111, 0)
+texture = ExtResource("inventory")
+centered = false
+
+[node name="ResetIcon" type="Sprite2D" parent="." unique_id=387161096]
+position = Vector2(29, 27)
+texture = ExtResource("reset")
+centered = false
+
+[node name="PlayIcon" type="Sprite2D" parent="." unique_id=315027478]
+position = Vector2(101, 14)
+texture = ExtResource("play")
+centered = false
+
+[node name="LeftLedge" type="StaticBody2D" parent="." unique_id=481098452]
+
+[node name="Outline" type="CollisionPolygon2D" parent="LeftLedge" unique_id=1219916864]
+polygon = PackedVector2Array(0, 279, 104, 220, 145, 245, 210, 287, 214, 326, 275, 326, 325, 323, 306, 355, 292, 443, 274, 548, 282, 631, 348, 800, 0, 800)
+
+[node name="RightLedge" type="StaticBody2D" parent="." unique_id=667541477]
+
+[node name="Outline" type="CollisionPolygon2D" parent="RightLedge" unique_id=1431819288]
+polygon = PackedVector2Array(726, 633, 746, 585, 731, 545, 743, 501, 820, 426, 849, 451, 925, 384, 978, 391, 1115, 393, 1115, 800, 758, 800)
+
+[node name="PlaceSound" type="AudioStreamPlayer" parent="." unique_id=2140708601]
+stream = ExtResource("place_sound")
+volume_db = -21.0
+
+[node name="PickupSound" type="AudioStreamPlayer" parent="." unique_id=2021137699]
+stream = ExtResource("place_sound")
+volume_db = -24.0
+pitch_scale = 1.35
+
+[node name="FootstepSound" type="AudioStreamPlayer" parent="." unique_id=884745491]
+stream = ExtResource("step_sound")
+volume_db = -29.0
+
+[node name="CompleteSound" type="AudioStreamPlayer" parent="." unique_id=1453801426]
+stream = ExtResource("complete_sound")
+volume_db = -22.0
