@@ -140,17 +140,17 @@ antialiased = true
 
 [node name="Flower1" type="Sprite2D" parent="." unique_id=1074244496]
 position = Vector2(294.5, 587)
-rotation = -1.4835298
 texture = ExtResource("flower1")
 script = ExtResource("item_script")
 item_id = &"flower1"
+can_rotate = false
 
 [node name="Flower2" type="Sprite2D" parent="." unique_id=1017939697]
 position = Vector2(445.5, 664)
-rotation = -0.9599311
 texture = ExtResource("flower2")
 script = ExtResource("item_script")
 item_id = &"flower2"
+can_rotate = false
 
 [node name="Butterfly" type="Node2D" parent="." unique_id=1311728343]
 position = Vector2(115, 495)

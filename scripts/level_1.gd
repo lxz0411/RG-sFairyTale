@@ -104,8 +104,9 @@ func _unhandled_input(event: InputEvent) -> void:
 				var item := item_at(point)
 				if item != null and item.visible and item.collected:
 					selected = item
-					rotating = true
-					rotation_offset = (point - item.position).angle() - item.rotation
+					rotating = item.can_rotate
+					if rotating:
+						rotation_offset = (point - item.position).angle() - item.rotation
 			else:
 				rotating = false
 		elif event.pressed and event.button_index in [MOUSE_BUTTON_WHEEL_UP, MOUSE_BUTTON_WHEEL_DOWN]:
@@ -152,7 +153,7 @@ func finish_drag() -> void:
 	dragged = null
 
 func rotate_item(angle: float) -> void:
-	if phase == Phase.EDIT and selected != null and selected.visible:
+	if phase == Phase.EDIT and selected != null and selected.visible and selected.can_rotate:
 		selected.rotation = wrapf(selected.rotation + angle, -PI, PI)
 
 func can_edit() -> bool:

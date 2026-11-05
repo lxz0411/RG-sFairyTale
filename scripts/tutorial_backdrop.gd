@@ -3,6 +3,8 @@ extends "res://scripts/level_base.gd"
 signal crossing_completed
 
 @export_file("*.tscn") var next_level_scene := "res://scenes/tutorial_backdrop.tscn"
+@export_range(0.3, 5.0, 0.1) var stuck_timeout := 2.0
+@export_range(0.0, 5.0, 0.1) var fall_hint_delay := 1.0
 
 const START := Vector2(275, 328)
 const WALK_SPEED := 95.0
@@ -44,6 +46,9 @@ var images: Array[Image] = []
 var feedback: Array[Tween] = [null, null]
 var door_animation: Tween
 var step_clock := 0.0
+var stalled_time := 0.0
+var retry_hint_remaining := 0.0
+var last_progress_position := START
 var hovered := -1
 
 @onready var branches: Array[Sprite2D] = [$BranchVertical, $BranchHorizontal]
@@ -315,6 +320,9 @@ func start_level() -> void:
 	traveler.velocity = Vector2.ZERO
 	traveler.show()
 	step_clock = 0.0
+	stalled_time = 0.0
+	retry_hint_remaining = 0.0
+	last_progress_position = traveler.position
 	phase = Phase.WALK
 	selected_branch = -1
 	$PlayIcon.texture = play_selected
@@ -364,6 +372,9 @@ func step_over_seam(delta: float) -> void:
 	traveler.velocity.y = 0.0
 
 func _physics_process(delta: float) -> void:
+	if phase == Phase.STOPPED:
+		retry_hint_remaining = maxf(retry_hint_remaining - delta, 0.0)
+		return
 	if phase != Phase.WALK:
 		return
 	step_over_seam(delta)
@@ -373,10 +384,7 @@ func _physics_process(delta: float) -> void:
 	for index in range(traveler.get_slide_collision_count()):
 		var collision := traveler.get_slide_collision(index)
 		if touches_raised_fork(collision):
-			traveler.velocity = Vector2.ZERO
-			phase = Phase.STOPPED
-			$PlayIcon.texture = play_texture
-			$FootstepSound.stop()
+			stop_walk()
 			return
 	if traveler.is_on_floor():
 		step_clock += delta
@@ -384,11 +392,31 @@ func _physics_process(delta: float) -> void:
 			step_clock = 0.0
 			$FootstepSound.play()
 		traveler.get_node("Art").position.y = -173 + sin(step_clock / 0.43 * TAU) * 1.3
-	if traveler.position.y > 860:
+	if traveler.position.y > get_viewport_rect().size.y + 60 or traveler.position.x < -60 or traveler.position.x > INVENTORY_AREA.position.x + 60:
+		stop_walk(true)
+		return
+	if traveler.position.distance_to(last_progress_position) >= 3.0:
+		last_progress_position = traveler.position
+		stalled_time = 0.0
+	else:
+		stalled_time += delta
+		if stalled_time >= stuck_timeout:
+			stop_walk(false, stalled_time)
+
+func stop_walk(fell_out: bool = false, already_stalled: float = 0.0) -> void:
+	if phase != Phase.WALK:
+		return
+	phase = Phase.STOPPED
+	# Generic stalls have already waited; do not add another full delay.
+	retry_hint_remaining = fall_hint_delay if fell_out else maxf(stuck_timeout - already_stalled, 0.0)
+	traveler.velocity = Vector2.ZERO
+	if fell_out:
 		traveler.hide()
-		traveler.velocity = Vector2.ZERO
-		phase = Phase.STOPPED
-		$PlayIcon.texture = play_texture
+	$PlayIcon.texture = play_texture
+	$FootstepSound.stop()
+
+func should_show_reset_hint() -> bool:
+	return phase == Phase.STOPPED and retry_hint_remaining <= 0.0
 
 func _on_star_detector_area_entered(area: Area2D) -> void:
 	# Godot's group check is the equivalent of Unity's CompareTag("star").
@@ -449,6 +477,9 @@ func reset_simulation() -> void:
 	star.position = Vector2(1018, 344)
 	star.modulate = Color.WHITE
 	phase = Phase.EDIT
+	stalled_time = 0.0
+	retry_hint_remaining = 0.0
+	last_progress_position = START
 	$Guide.on_level_reset()
 
 func _draw() -> void:

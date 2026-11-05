@@ -2,6 +2,7 @@ extends Sprite2D
 ## Collectible state shared by props in every level.
 
 @export var item_id: StringName
+@export var can_rotate := true
 var collected := false
 var deployed := false
 @onready var image: Image = texture.get_image()

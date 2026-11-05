@@ -1,5 +1,5 @@
 extends CanvasLayer
-## Four action-driven spotlight steps. Static overlay and mouse glyph live in the scene.
+## Four lesson steps and a reset spotlight after failure. Static visuals live in the scene.
 
 enum Step { COLLECT, PLACE, ROTATE, START, DONE }
 
@@ -18,11 +18,12 @@ func _on_revealed() -> void:
 	_process(0.0)
 
 func _process(delta: float) -> void:
-	visible = enabled and step != Step.DONE and level.phase == level.Phase.EDIT and not level.get_node("Transition").visible
+	var retrying: bool = level.should_show_reset_hint()
+	visible = enabled and (retrying or (step != Step.DONE and level.phase == level.Phase.EDIT)) and not level.get_node("Transition").visible
 	if not visible:
 		return
-	# Rotation and start are non-blocking hints; only the first two steps dim the scene.
-	$Shade.visible = step in [Step.COLLECT, Step.PLACE]
+	# Rotation/start stay unmasked; a failed attempt leaves only reset clear.
+	$Shade.visible = retrying or step in [Step.COLLECT, Step.PLACE]
 	update_holes()
 	var shader_holes := PackedVector4Array()
 	for index in range(6):
@@ -31,15 +32,15 @@ func _process(delta: float) -> void:
 	$Shade.material.set_shader_parameter("holes", shader_holes)
 	$Shade.material.set_shader_parameter("hole_count", holes.size())
 	$Shade.material.set_shader_parameter("overlay_size", $Shade.size)
-	$RightMouse.visible = step == Step.ROTATE
-	$StartArrow.visible = step == Step.START
-	if step == Step.START:
+	$RightMouse.visible = not retrying and step == Step.ROTATE
+	$StartArrow.visible = not retrying and step == Step.START
+	if $StartArrow.visible:
 		arrow_clock += delta
 		var button_rect := sprite_bounds(level.get_node("PlayIcon"), 0.0)
 		$StartArrow.position = Vector2(button_rect.end.x + 14.0 + 8.0 * (1.0 - cos(arrow_clock * TAU)), button_rect.get_center().y)
 	else:
 		arrow_clock = 0.0
-	if step == Step.ROTATE:
+	if $RightMouse.visible:
 		var target: Sprite2D = level.branches[0]
 		if level.selected_branch >= 0:
 			target = level.branches[level.selected_branch]
@@ -50,6 +51,9 @@ func sprite_bounds(sprite: Sprite2D, padding: float = 16.0) -> Rect2:
 
 func update_holes() -> void:
 	holes.clear()
+	if level.should_show_reset_hint():
+		holes.append(sprite_bounds(level.get_node("ResetIcon")))
+		return
 	match step:
 		Step.COLLECT:
 			for index in range(level.branches.size()):
@@ -70,7 +74,7 @@ func update_holes() -> void:
 			holes.append(sprite_bounds(level.get_node("PlayIcon"), 12.0))
 
 func allows_point(point: Vector2) -> bool:
-	if not enabled or step >= Step.ROTATE:
+	if not enabled or (step >= Step.ROTATE and not level.should_show_reset_hint()):
 		return true
 	update_holes()
 	for rect in holes:
@@ -79,6 +83,8 @@ func allows_point(point: Vector2) -> bool:
 	return false
 
 func allows(action: StringName) -> bool:
+	if enabled and level.should_show_reset_hint():
+		return action == &"reset"
 	if not enabled or step >= Step.ROTATE:
 		return true
 	match action:
@@ -110,8 +116,7 @@ func finish() -> void:
 	hide()
 
 func on_level_reset() -> void:
-	if step == Step.DONE:
-		return
-	step = Step.COLLECT if level.locations.has(level.Location.TREE) else Step.PLACE
+	if step != Step.DONE:
+		step = Step.COLLECT if level.locations.has(level.Location.TREE) else Step.PLACE
 	right_rotation = 0.0
 	_process(0.0)
