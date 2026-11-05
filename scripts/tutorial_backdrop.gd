@@ -1,4 +1,4 @@
-extends Node2D
+extends "res://scripts/level_base.gd"
 
 signal crossing_completed
 
@@ -7,7 +7,6 @@ signal crossing_completed
 const START := Vector2(275, 328)
 const WALK_SPEED := 95.0
 const GRAVITY := 1100.0
-const SLOT_CENTERS := [Vector2(1192, 77), Vector2(1192, 201)]
 const INVENTORY_AREA := Rect2(1111, 0, 169, 800)
 const BUILD_AREA := Rect2(0, 90, 1109, 680)
 # The shaft supplies a continuous walking surface; raised forks block passage.
@@ -24,7 +23,12 @@ const FORK_TIPS := [Vector2(0, 77), Vector2(54, 5)]
 enum Location { TREE, INVENTORY, BRIDGE }
 enum Phase { EDIT, WALK, STOPPED, COMPLETE }
 
-var locations := [Location.TREE, Location.TREE]
+var locations: Array:
+	get:
+		var result: Array = []
+		for branch in branches:
+			result.append(Location.TREE if not branch.collected else Location.BRIDGE if branch.deployed else Location.INVENTORY)
+		return result
 var phase := Phase.EDIT
 var held := -1
 var rotating_branch := -1
@@ -38,7 +42,6 @@ var plank_surfaces: Array[CollisionPolygon2D] = []
 var fork_colliders: Array[CollisionPolygon2D] = []
 var images: Array[Image] = []
 var feedback: Array[Tween] = [null, null]
-var pickup_tweens: Array[Tween] = [null, null]
 var door_animation: Tween
 var step_clock := 0.0
 var hovered := -1
@@ -47,10 +50,6 @@ var hovered := -1
 @onready var traveler: CharacterBody2D = $Traveler
 @onready var door: Sprite2D = $ExitDoor
 @onready var star: Sprite2D = $GoalStar
-@onready var play_texture: Texture2D = $PlayIcon.texture
-@onready var reset_texture: Texture2D = $ResetIcon.texture
-var play_selected := preload("res://assets/tutorial/final/play_selected.png")
-var reset_selected := preload("res://assets/tutorial/final/reset_selected.png")
 var star_complete := preload("res://assets/tutorial/final/star_complete.png")
 
 func _ready() -> void:
@@ -119,17 +118,12 @@ func _process(delta: float) -> void:
 	Input.set_default_cursor_shape(Input.CURSOR_POINTING_HAND if over_button or hovered >= 0 else Input.CURSOR_ARROW)
 	queue_redraw()
 
-func icon_hit(icon: Sprite2D, point: Vector2) -> bool:
-	return icon.get_rect().grow(5).has_point(icon.to_local(to_global(point)))
-
 func branch_at(point: Vector2) -> int:
-	# Like the physics scene, the entire occupied inventory slot is draggable.
-	for index in range(branches.size()):
-		if locations[index] == Location.INVENTORY and held != index:
-			if Rect2(SLOT_CENTERS[index] - Vector2(56, 50), Vector2(112, 100)).has_point(point):
-				return index
+	var stored: Sprite2D = backpack.item_at(point)
+	if stored != null:
+		return branches.find(stored)
 	for index in range(branches.size() - 1, -1, -1):
-		if locations[index] == Location.INVENTORY and held != index:
+		if not branches[index].visible:
 			continue
 		var branch := branches[index]
 		var pixel := branch.to_local(to_global(point)) + branch.texture.get_size() * 0.5
@@ -142,6 +136,8 @@ func branch_at(point: Vector2) -> int:
 	return -1
 
 func _unhandled_input(event: InputEvent) -> void:
+	if handle_level_input(event):
+		return
 	if $Transition.visible:
 		return
 	var point: Vector2 = event.position if event is InputEventMouse else get_local_mouse_position()
@@ -159,7 +155,6 @@ func _unhandled_input(event: InputEvent) -> void:
 			if event.pressed:
 				press_at(point)
 			else:
-				$ResetIcon.texture = reset_texture
 				if held >= 0:
 					drop_at(point)
 		elif event.button_index == MOUSE_BUTTON_RIGHT:
@@ -175,26 +170,20 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
 		if held >= 0:
 			saved_rotations[held] = branches[held].rotation
-			locations[held] = Location.INVENTORY
-			return_to_inventory(held)
+			backpack.store(branches[held])
 			held = -1
 		rotating_branch = -1
 		selected_branch = -1
 		$Guide.sync_progress()
 
 func press_at(point: Vector2) -> void:
+	if handle_level_press(point):
+		return
 	if $Transition.visible or phase == Phase.COMPLETE:
 		return
 	if not $Guide.allows_point(point):
 		return
-	if icon_hit($ResetIcon, point):
-		reset_walk()
-		$ResetIcon.texture = reset_selected
-		return
 	if phase != Phase.EDIT or held >= 0 or rotating_branch >= 0:
-		return
-	if icon_hit($PlayIcon, point):
-		start_walk()
 		return
 	var index := branch_at(point)
 	if index < 0:
@@ -208,22 +197,8 @@ func press_at(point: Vector2) -> void:
 func collect_branch(index: int) -> void:
 	if not $Guide.allows(&"collect"):
 		return
-	var branch := branches[index]
-	var tree_transform := branch.transform
-	locations[index] = Location.INVENTORY
-	return_to_inventory(index)
-	var destination := branch.position
-	var target_rotation := branch.rotation
-	branch.transform = tree_transform
-	branch.z_index = 4
-	pickup_tweens[index] = create_tween().set_parallel(true)
-	pickup_tweens[index].set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN_OUT)
-	pickup_tweens[index].tween_property(branch, "position", destination, 0.3)
-	pickup_tweens[index].tween_property(branch, "rotation", target_rotation, 0.3)
-	pickup_tweens[index].tween_property(branch, "scale", Vector2.ONE * 0.32, 0.3)
-	pulse_branch(index)
-	$PickupSound.play()
-	$Guide.sync_progress()
+	if collect_item(branches[index]):
+		$Guide.sync_progress()
 
 func pulse_branch(index: int) -> void:
 	if feedback[index] != null:
@@ -232,23 +207,11 @@ func pulse_branch(index: int) -> void:
 	feedback[index] = create_tween()
 	feedback[index].tween_property(branches[index], "modulate", Color.WHITE, 0.25)
 
-func return_to_inventory(index: int) -> void:
-	if selected_branch == index:
-		selected_branch = -1
-	var branch := branches[index]
-	branch.position = SLOT_CENTERS[index]
-	branch.scale = Vector2.ONE * 0.32
-	branch.rotation = -PI * 0.5 if index == 0 else -0.34
-	branch.z_index = 2
-
 func begin_drag(index: int, point: Vector2) -> void:
 	if phase != Phase.EDIT or $Transition.visible:
 		return
 	if not $Guide.allows(&"drag"):
 		return
-	if pickup_tweens[index] != null and pickup_tweens[index].is_running():
-		pickup_tweens[index].kill()
-		return_to_inventory(index)
 	held = index
 	selected_branch = index
 	rotating_branch = -1
@@ -260,7 +223,7 @@ func begin_drag(index: int, point: Vector2) -> void:
 		branch.rotation = saved_rotations[index]
 		branch.position = point
 	grab_offset = branch.position - point
-	branch.z_index = 5
+	backpack.begin_drag(branch)
 
 func move_drag(point: Vector2) -> void:
 	if held >= 0:
@@ -274,16 +237,18 @@ func drop_at(point: Vector2) -> void:
 	branch.z_index = 2
 	if INVENTORY_AREA.has_point(point):
 		saved_rotations[index] = branch.rotation
-		locations[index] = Location.INVENTORY
-		return_to_inventory(index)
+		backpack.store(branch)
 	elif BUILD_AREA.has_point(branch.position) and (not $Guide.enabled or $Guide.step != $Guide.Step.PLACE or $Guide.DROP_AREA.has_point(branch.position)):
-		locations[index] = Location.BRIDGE
+		backpack.deploy(branch)
 		saved_rotations[index] = branch.rotation
 		pulse_branch(index)
 		$PlaceSound.play()
 	else:
 		branch.transform = original_transform
-		locations[index] = original_location
+		if original_location == Location.INVENTORY:
+			backpack.store(branch)
+		else:
+			backpack.deploy(branch)
 	$Guide.sync_progress()
 
 func begin_rotation(point: Vector2) -> void:
@@ -334,7 +299,13 @@ func sync_plank_surfaces() -> void:
 		# Only the exposed upper fork blocks walking. A half-turn puts it underneath.
 		fork.disabled = span.cross(tip - start) >= 0.0
 
-func start_walk() -> void:
+func can_edit() -> bool:
+	return phase == Phase.EDIT
+
+func allows_start(point: Vector2) -> bool:
+	return $Guide.allows_point(point) and $Guide.allows(&"start")
+
+func start_level() -> void:
 	if phase != Phase.EDIT or held >= 0 or rotating_branch >= 0:
 		return
 	if not $Guide.allows(&"start"):
@@ -453,21 +424,17 @@ func _on_transition_covered() -> void:
 	if error != OK:
 		push_error("Cannot load next level: %s (error %s)" % [next_level_scene, error])
 
-func reset_walk() -> void:
-	$Transition.cancel()
+func stop_level_activity() -> void:
 	if door_animation != null:
 		door_animation.kill()
-	if held >= 0:
-		branches[held].transform = original_transform
-		branches[held].z_index = 2
-		locations[held] = original_location
 	held = -1
 	rotating_branch = -1
 	selected_branch = -1
-	for index in range(branches.size()):
-		if pickup_tweens[index] != null and pickup_tweens[index].is_running():
-			pickup_tweens[index].kill()
-			return_to_inventory(index)
+	for effect in feedback:
+		if effect != null:
+			effect.kill()
+
+func reset_simulation() -> void:
 	for surface in plank_surfaces:
 		surface.disabled = true
 	for fork in fork_colliders:
@@ -482,9 +449,7 @@ func reset_walk() -> void:
 	star.position = Vector2(1018, 344)
 	star.modulate = Color.WHITE
 	phase = Phase.EDIT
-	$PlayIcon.texture = play_texture
-	$FootstepSound.stop()
-	$CompleteSound.stop()
+	$Guide.on_level_reset()
 
 func _draw() -> void:
 	if phase == Phase.COMPLETE:

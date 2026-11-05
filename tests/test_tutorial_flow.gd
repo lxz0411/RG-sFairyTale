@@ -35,17 +35,18 @@ func run() -> void:
 	place(0, Vector2(541, 364), 0.18)
 	# The same bridge must fail with its fork up and succeed after a half-turn.
 	place(1, Vector2(313, 321), 0.18, false)
-	scene.start_walk()
+	scene.start_level()
 	for frame in range(300):
 		await physics_frame
 		if scene.phase != scene.Phase.WALK:
 			break
 	check(scene.phase == scene.Phase.STOPPED and scene.traveler.visible, "Upper fork must stop the character at %s phase %s" % [scene.traveler.position, scene.phase])
 	check(scene.traveler.position.x < 430, "Character crossed the raised fork")
-	scene.reset_walk()
+	scene.reset_level()
 	await physics_frame
 	await physics_frame
 	place(1, Vector2(313, 321), 0.18)
+	place(0, Vector2(541, 364), 0.18)
 	var before: Transform2D = scene.branches[0].transform
 	var mid: Vector2 = (scene.SHAFTS[0][0] + scene.SHAFTS[0][1]) * 0.5 - scene.branches[0].texture.get_size() * 0.5
 	var grip: Vector2 = scene.branches[0].to_global(mid)
@@ -67,8 +68,7 @@ func run() -> void:
 	scene.drop_at(Vector2(1192, 77))
 	check(scene.locations[0] == scene.Location.INVENTORY, "Return to inventory failed")
 	place(0, Vector2(541, 364), 0.18)
-	var transforms := [scene.branches[0].transform, scene.branches[1].transform]
-	scene.start_walk()
+	scene.start_level()
 	scene.press_at(Vector2(1192, 77))
 	scene.begin_drag(0, Vector2.ZERO)
 	check(scene.held == -1, "Editing was possible during run")
@@ -77,25 +77,27 @@ func run() -> void:
 		if scene.phase != scene.Phase.WALK:
 			break
 	check(scene.phase == scene.Phase.COMPLETE, "Connected angled bridge did not complete. Position %s phase %s" % [scene.traveler.position, scene.phase])
-	scene.reset_walk()
+	scene.reset_level()
 	await physics_frame
 	await physics_frame
 	check(scene.traveler.position == scene.START and scene.phase == scene.Phase.EDIT, "Reset did not restore idle character")
-	check(scene.branches[0].transform == transforms[0] and scene.branches[1].transform == transforms[1], "Reset changed bridge")
+	check(scene.locations == [scene.Location.INVENTORY, scene.Location.INVENTORY] and not scene.branches[0].visible and not scene.branches[1].visible, "Reset must recall both bridge props")
 	# Move the second bridge down: walking off the first must fall onto it naturally.
+	place(1, Vector2(313, 321), 0.18)
 	place(0, Vector2(541, 379), 0.10)
-	scene.start_walk()
+	scene.start_level()
 	for frame in range(900):
 		await physics_frame
 		if scene.phase != scene.Phase.WALK:
 			break
 	check(scene.phase == scene.Phase.COMPLETE, "Natural drop between bridges failed at %s" % scene.traveler.position)
-	scene.reset_walk()
+	scene.reset_level()
 	await physics_frame
 	await physics_frame
+	place(0, Vector2(541, 379), 0.10)
 	scene.begin_drag(1, scene.branches[1].position)
 	scene.drop_at(Vector2(1192, 201))
-	scene.start_walk()
+	scene.start_level()
 	for frame in range(240):
 		await physics_frame
 		if scene.phase != scene.Phase.WALK:
@@ -105,20 +107,20 @@ func run() -> void:
 	for frame in range(10):
 		await physics_frame
 	check(scene.traveler.position == fallen_position, "Failed character moved before reset")
-	scene.reset_walk()
+	scene.reset_level()
 	await physics_frame
 	await physics_frame
-	check(scene.locations == [scene.Location.BRIDGE, scene.Location.INVENTORY], "Failure reset lost collected items")
+	check(scene.locations == [scene.Location.INVENTORY, scene.Location.INVENTORY], "Failure reset must recall all collected props")
 	# Slightly overlapping visible ends with different slopes must remain supported.
 	place(1, Vector2(313, 321), 0.25)
 	place(0, Vector2(542, 378), 0.15)
-	scene.start_walk()
+	scene.start_level()
 	for frame in range(900):
 		await physics_frame
 		if scene.phase != scene.Phase.WALK:
 			break
 	check(scene.phase == scene.Phase.COMPLETE, "Visible overlapping seam dropped or trapped traveler at %s" % scene.traveler.position)
-	scene.reset_walk()
+	scene.reset_level()
 	await physics_frame
 	await physics_frame
 	# Isolate the wood from scenery and verify both faces and both end caps.
@@ -144,7 +146,7 @@ func run() -> void:
 			var ray := PhysicsRayQueryParameters2D.create(endpoints[0], endpoints[1])
 			var hit := scene.get_world_2d().direct_space_state.intersect_ray(ray)
 			check(not hit.is_empty() and hit.collider.has_meta("branch_index"), "Wood end cap must be solid")
-	print("PASS: solid faces and end caps, overlapping seam, raised fork blocks, flat side passes, independent pickup, drag, return, rotation, edit lock, angled crossing, step-down crossing, fall, persistent reset")
+	print("PASS: solid faces and end caps, overlapping seam, raised fork blocks, flat side passes, independent pickup, drag, return, rotation, edit lock, angled crossing, step-down crossing, fall, recall on reset")
 	scene.queue_free()
 	await process_frame
 	quit()

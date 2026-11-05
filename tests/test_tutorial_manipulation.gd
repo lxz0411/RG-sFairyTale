@@ -33,7 +33,7 @@ func run() -> void:
 	scene.collect_branch(0)
 	await create_timer(0.35).timeout
 	var branch: Sprite2D = scene.branches[0]
-	mouse(scene.SLOT_CENTERS[0], MOUSE_BUTTON_LEFT, true)
+	mouse(scene.slot_center(scene.branches[0]), MOUSE_BUTTON_LEFT, true)
 	motion(Vector2(480, 350))
 	mouse(Vector2(480, 350), MOUSE_BUTTON_LEFT, false)
 	if not require(branch.position.distance_to(Vector2(480, 350)) < 0.01, "Inventory drag did not follow pointer"):

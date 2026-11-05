@@ -11,6 +11,8 @@ func require(ok: bool, message: String) -> bool:
 
 func run() -> void:
 	var scene = load("res://scenes/tutorial_backdrop.tscn").instantiate()
+	# This test intentionally reloads the tutorial; production advances to level 1.
+	scene.next_level_scene = "res://scenes/tutorial_backdrop.tscn"
 	root.add_child(scene)
 	current_scene = scene
 	var entry = scene.get_node("Transition")
@@ -46,7 +48,7 @@ func run() -> void:
 	if not require(scene.phase != scene.Phase.COMPLETE, "Old coordinate rule is still active"):
 		return
 	# A real overlap with a relocated star must trigger, even far from the exit.
-	scene.reset_walk()
+	scene.reset_level()
 	scene.star.position = Vector2(400, 250)
 	scene.traveler.position = Vector2(425, 315)
 	for frame in range(5):
@@ -103,7 +105,7 @@ func run() -> void:
 	current_scene.pass_level()
 	if not require(current_scene.phase == current_scene.Phase.COMPLETE, "pass_level depends on collision state"):
 		return
-	current_scene.reset_walk()
+	current_scene.reset_level()
 	if not require(not current_scene.get_node("Transition").visible, "Reset did not cancel the cover"):
 		return
 	# The two Inspector timings must independently control expansion and black hold.

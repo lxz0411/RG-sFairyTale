@@ -1,0 +1,56 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/tutorial/final/inventory.png" id="inventory"]
+[ext_resource type="Script" path="res://scripts/level_inventory.gd" id="script"]
+
+[sub_resource type="AtlasTexture" id="Frame"]
+atlas = ExtResource("inventory")
+region = Rect2(0, 14, 169, 126)
+
+[node name="Inventory" type="Sprite2D"]
+position = Vector2(1111, 0)
+script = ExtResource("script")
+
+[node name="Frame1" type="Sprite2D" parent="."]
+texture = SubResource("Frame")
+centered = false
+scale = Vector2(1, 1.2698413)
+
+[node name="Frame2" type="Sprite2D" parent="."]
+position = Vector2(0, 160)
+texture = SubResource("Frame")
+centered = false
+scale = Vector2(1, 1.2698413)
+
+[node name="Frame3" type="Sprite2D" parent="."]
+position = Vector2(0, 320)
+texture = SubResource("Frame")
+centered = false
+scale = Vector2(1, 1.2698413)
+
+[node name="Frame4" type="Sprite2D" parent="."]
+position = Vector2(0, 480)
+texture = SubResource("Frame")
+centered = false
+scale = Vector2(1, 1.2698413)
+
+[node name="Frame5" type="Sprite2D" parent="."]
+position = Vector2(0, 640)
+texture = SubResource("Frame")
+centered = false
+scale = Vector2(1, 1.2698413)
+
+[node name="Icon1" type="Sprite2D" parent="."]
+position = Vector2(81, 80)
+
+[node name="Icon2" type="Sprite2D" parent="."]
+position = Vector2(81, 240)
+
+[node name="Icon3" type="Sprite2D" parent="."]
+position = Vector2(81, 400)
+
+[node name="Icon4" type="Sprite2D" parent="."]
+position = Vector2(81, 560)
+
+[node name="Icon5" type="Sprite2D" parent="."]
+position = Vector2(81, 720)

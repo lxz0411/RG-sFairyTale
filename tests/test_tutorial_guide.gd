@@ -55,10 +55,10 @@ func run() -> void:
 	if not require(guide.step == guide.Step.PLACE, "Collecting both branches did not advance"):
 		return
 	await snapshot("2_place")
-	drag(scene.SLOT_CENTERS[0], Vector2(500, 420))
+	drag(scene.slot_center(scene.branches[0]), Vector2(500, 420))
 	if not require(guide.step == guide.Step.PLACE, "Place step ended after only one branch"):
 		return
-	drag(scene.SLOT_CENTERS[1], Vector2(650, 420))
+	drag(scene.slot_center(scene.branches[1]), Vector2(650, 420))
 	if not require(guide.step == guide.Step.ROTATE, "Placing both branches did not advance"):
 		return
 	if not require(not guide.get_node("Shade").visible and guide.allows_point(Vector2(50, 50)), "Step 3 must remove the mask and unblock the scene"):
@@ -85,6 +85,7 @@ func run() -> void:
 		return
 	await snapshot("4_start")
 	await process_frame
+	await process_frame
 	var arrow: Node2D = guide.get_node("StartArrow")
 	if not require(arrow.is_visible_in_tree(), "Start guidance arrow is missing"):
 		return
@@ -98,7 +99,7 @@ func run() -> void:
 	await process_frame
 	if not require(guide.step == guide.Step.DONE and not guide.visible and scene.phase == scene.Phase.WALK, "Start did not finish and hide guide"):
 		return
-	scene.reset_walk()
+	scene.reset_level()
 	if not require(guide.step == guide.Step.DONE, "Retry unexpectedly restarted the guide"):
 		return
 	for sound in scene.get_children():

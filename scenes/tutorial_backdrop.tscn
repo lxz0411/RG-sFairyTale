@@ -5,7 +5,8 @@
 [ext_resource type="Texture2D" uid="uid://bypafmltddidr" path="res://assets/tutorial/final/branch_vertical.png" id="branch_vertical"]
 [ext_resource type="AudioStream" uid="uid://b8r5v342pn72n" path="res://assets/tutorial/final/complete.wav" id="complete_sound"]
 [ext_resource type="Texture2D" uid="uid://65i712d8vpcu" path="res://assets/tutorial/final/door.png" id="door"]
-[ext_resource type="Texture2D" uid="uid://br04maasd1gij" path="res://assets/tutorial/final/inventory.png" id="inventory"]
+[ext_resource type="PackedScene" path="res://scenes/tutorial_guide.tscn" id="guide"]
+[ext_resource type="PackedScene" path="res://scenes/hand_drawn_inventory.tscn" id="inventory"]
 [ext_resource type="AudioStream" uid="uid://c65rbgguv3sf3" path="res://assets/tutorial/final/place.wav" id="place_sound"]
 [ext_resource type="Texture2D" uid="uid://wmd4povc3eqf" path="res://assets/tutorial/final/play.png" id="play"]
 [ext_resource type="Texture2D" uid="uid://ccorkn02fh60k" path="res://assets/tutorial/final/reset.png" id="reset"]
@@ -14,8 +15,7 @@
 [ext_resource type="AudioStream" uid="uid://58htdnhccwp3" path="res://assets/tutorial/final/step.wav" id="step_sound"]
 [ext_resource type="PackedScene" path="res://scenes/circle_transition.tscn" id="transition"]
 [ext_resource type="Texture2D" uid="uid://bodylyoeg2cl4" path="res://assets/tutorial/final/traveler.png" id="traveler"]
-
-[ext_resource type="PackedScene" path="res://scenes/tutorial_guide.tscn" id="guide"]
+[ext_resource type="Script" path="res://scripts/level_item.gd" id="item_script"]
 
 [sub_resource type="CircleShape2D" id="star_trigger"]
 radius = 19.0
@@ -29,6 +29,7 @@ size = Vector2(60, 155)
 
 [node name="TutorialBackdrop" type="Node2D" unique_id=1506146982]
 script = ExtResource("script")
+next_level_scene = "res://scenes/level_1.tscn"
 
 [node name="Background" type="Sprite2D" parent="." unique_id=1706266298]
 z_index = -10
@@ -36,11 +37,15 @@ texture = ExtResource("background")
 centered = false
 
 [node name="BranchVertical" type="Sprite2D" parent="." unique_id=1445103112]
+script = ExtResource("item_script")
+item_id = &"branch_vertical"
 position = Vector2(923, 34)
 texture = ExtResource("branch_vertical")
 centered = false
 
 [node name="BranchHorizontal" type="Sprite2D" parent="." unique_id=684804749]
+script = ExtResource("item_script")
+item_id = &"branch_horizontal"
 position = Vector2(735, 64)
 texture = ExtResource("branch_horizontal")
 centered = false
@@ -89,10 +94,7 @@ monitorable = false
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Traveler/StarDetector" unique_id=1642203645]
 shape = SubResource("star_detector")
 
-[node name="Inventory" type="Sprite2D" parent="." unique_id=1338756118]
-position = Vector2(1111, 0)
-texture = ExtResource("inventory")
-centered = false
+[node name="Inventory" parent="." unique_id=1338756118 instance=ExtResource("inventory")]
 
 [node name="ResetIcon" type="Sprite2D" parent="." unique_id=387161096]
 position = Vector2(29, 27)
@@ -133,9 +135,8 @@ volume_db = -22.0
 
 [node name="Transition" parent="." unique_id=339211424 instance=ExtResource("transition")]
 
-[node name="Guide" parent="." instance=ExtResource("guide")]
+[node name="Guide" parent="." unique_id=1178614537 instance=ExtResource("guide")]
 
 [connection signal="area_entered" from="Traveler/StarDetector" to="." method="_on_star_detector_area_entered"]
 [connection signal="covered" from="Transition" to="." method="_on_transition_covered"]
-
 [connection signal="revealed" from="Transition" to="Guide" method="_on_revealed"]

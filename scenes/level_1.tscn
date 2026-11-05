@@ -1,0 +1,219 @@
+[gd_scene format=3 uid="uid://d18v5hf3oyvcn"]
+
+[ext_resource type="Texture2D" uid="uid://dgn8tjim2qeng" path="res://assets/level1/back_new.png" id="2_x2xxo"]
+[ext_resource type="AudioStream" uid="uid://b8r5v342pn72n" path="res://assets/tutorial/final/complete.wav" id="complete"]
+[ext_resource type="Texture2D" uid="uid://cckn11k5gqn6f" path="res://assets/level1/level1_flower1.png" id="flower1"]
+[ext_resource type="Texture2D" uid="uid://bc34jbk2yq01y" path="res://assets/level1/level1_flower2.png" id="flower2"]
+[ext_resource type="Texture2D" uid="uid://cd502pngikxky" path="res://assets/level1/level1_butterfly1.png" id="fly"]
+[ext_resource type="AudioStream" uid="uid://br4yabv4suaw8" path="res://assets/level1/horn_blow.wav" id="horn"]
+[ext_resource type="Texture2D" uid="uid://cuww7ar3psmjc" path="res://assets/level1/level1_horn1.png" id="horn1"]
+[ext_resource type="Texture2D" uid="uid://cb5a83gvyjt8" path="res://assets/level1/level1_horn2.png" id="horn2"]
+[ext_resource type="PackedScene" path="res://scenes/hand_drawn_inventory.tscn" id="inventory"]
+[ext_resource type="Script" path="res://scripts/level_item.gd" id="item_script"]
+[ext_resource type="Texture2D" uid="uid://gf5mya2y00jk" path="res://assets/level1/level1_goldenflower.png" id="petal"]
+[ext_resource type="AudioStream" uid="uid://c65rbgguv3sf3" path="res://assets/tutorial/final/place.wav" id="pickup"]
+[ext_resource type="Texture2D" uid="uid://wmd4povc3eqf" path="res://assets/tutorial/final/play.png" id="play"]
+[ext_resource type="Texture2D" uid="uid://ccorkn02fh60k" path="res://assets/tutorial/final/reset.png" id="reset"]
+[ext_resource type="Texture2D" uid="uid://bku828n7l4f4" path="res://assets/level1/level1_butterfly2.png" id="rest"]
+[ext_resource type="Script" uid="uid://d14q4tr1phu6q" path="res://scripts/level_1.gd" id="script"]
+[ext_resource type="Texture2D" uid="uid://b26piulxyah5c" path="res://assets/tutorial/final/star.png" id="star"]
+[ext_resource type="PackedScene" path="res://scenes/circle_transition.tscn" id="transition"]
+
+[sub_resource type="AtlasTexture" id="ClosedWings"]
+atlas = ExtResource("rest")
+region = Rect2(0, 0, 63, 101)
+margin = Rect2(20, 6, 39, 11)
+
+[sub_resource type="SpriteFrames" id="Wings"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("fly")
+}, {
+"duration": 1.0,
+"texture": ExtResource("fly")
+}, {
+"duration": 1.0,
+"texture": SubResource("ClosedWings")
+}, {
+"duration": 1.0,
+"texture": ExtResource("fly")
+}],
+"loop": 1,
+"name": &"fly",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("ClosedWings")
+}],
+"loop": 1,
+"name": &"rest",
+"speed": 1.0
+}]
+
+[sub_resource type="CircleShape2D" id="ButterflyShape"]
+radius = 18.0
+
+[sub_resource type="CircleShape2D" id="StarShape"]
+radius = 20.0
+
+[sub_resource type="AtlasTexture" id="PetalCrop"]
+atlas = ExtResource("petal")
+region = Rect2(865, 432, 43, 31)
+
+[node name="Level1" type="Node2D" unique_id=1388487588]
+script = ExtResource("script")
+next_level_scene = "uid://yfwpcden1q4r"
+
+[node name="Background" type="Sprite2D" parent="." unique_id=429345360]
+z_index = -10
+texture = ExtResource("2_x2xxo")
+centered = false
+
+[node name="Anchors" type="Node2D" parent="." unique_id=413650856]
+
+[node name="ButterflyStart" type="Marker2D" parent="Anchors" unique_id=595927145]
+position = Vector2(115, 495)
+
+[node name="WindowExit" type="Marker2D" parent="Anchors" unique_id=2138919213]
+position = Vector2(1070, 110)
+
+[node name="Horn1" type="Sprite2D" parent="." unique_id=553801335]
+position = Vector2(296.5, 724.5)
+rotation = -1.5707964
+texture = ExtResource("horn1")
+script = ExtResource("item_script")
+item_id = &"horn1"
+metadata/mouth = Vector2(34, 30)
+
+[node name="Wind" type="Node2D" parent="Horn1" unique_id=1519032164]
+visible = false
+position = Vector2(34, 30)
+
+[node name="Stream1" type="Line2D" parent="Horn1/Wind" unique_id=835085013]
+points = PackedVector2Array(27, -4, 69.5, 23.5, 117, 41)
+width = 2.0
+default_color = Color(0.9, 0.84, 0.6, 0.75)
+antialiased = true
+
+[node name="Stream2" type="Line2D" parent="Horn1/Wind" unique_id=828139791]
+points = PackedVector2Array(20, 10, 62.5, 37.5, 110, 55)
+width = 2.0
+default_color = Color(0.9, 0.84, 0.6, 0.75)
+antialiased = true
+
+[node name="Stream3" type="Line2D" parent="Horn1/Wind" unique_id=834300797]
+points = PackedVector2Array(13, 24, 55.5, 51.5, 103, 69)
+width = 2.0
+default_color = Color(0.9, 0.84, 0.6, 0.75)
+antialiased = true
+
+[node name="Horn2" type="Sprite2D" parent="." unique_id=2127261979]
+position = Vector2(547, 665)
+texture = ExtResource("horn2")
+script = ExtResource("item_script")
+item_id = &"horn2"
+metadata/mouth = Vector2(5, 110)
+
+[node name="Wind" type="Node2D" parent="Horn2" unique_id=451879077]
+visible = false
+position = Vector2(5, 110)
+
+[node name="Stream1" type="Line2D" parent="Horn2/Wind" unique_id=2116135592]
+points = PackedVector2Array(14, 20, 9, 65, 14, 110)
+width = 2.0
+default_color = Color(0.9, 0.84, 0.6, 0.75)
+antialiased = true
+
+[node name="Stream2" type="Line2D" parent="Horn2/Wind" unique_id=38040479]
+points = PackedVector2Array(0, 20, -5, 65, 0, 110)
+width = 2.0
+default_color = Color(0.9, 0.84, 0.6, 0.75)
+antialiased = true
+
+[node name="Stream3" type="Line2D" parent="Horn2/Wind" unique_id=1401237102]
+points = PackedVector2Array(-14, 20, -19, 65, -14, 110)
+width = 2.0
+default_color = Color(0.9, 0.84, 0.6, 0.75)
+antialiased = true
+
+[node name="Flower1" type="Sprite2D" parent="." unique_id=1074244496]
+position = Vector2(294.5, 587)
+rotation = -1.4835298
+texture = ExtResource("flower1")
+script = ExtResource("item_script")
+item_id = &"flower1"
+
+[node name="Flower2" type="Sprite2D" parent="." unique_id=1017939697]
+position = Vector2(445.5, 664)
+rotation = -0.9599311
+texture = ExtResource("flower2")
+script = ExtResource("item_script")
+item_id = &"flower2"
+
+[node name="Butterfly" type="Node2D" parent="." unique_id=1311728343]
+position = Vector2(115, 495)
+
+[node name="Wings" type="AnimatedSprite2D" parent="Butterfly" unique_id=684146580]
+sprite_frames = SubResource("Wings")
+animation = &"fly"
+autoplay = "fly"
+
+[node name="StarDetector" type="Area2D" parent="Butterfly" unique_id=283308903]
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Butterfly/StarDetector" unique_id=78420400]
+shape = SubResource("ButterflyShape")
+
+[node name="GoalStar" type="Sprite2D" parent="." unique_id=1122284053]
+position = Vector2(797, 520)
+texture = ExtResource("star")
+
+[node name="Trigger" type="Area2D" parent="GoalStar" unique_id=731483342 groups=["star"]]
+collision_layer = 2
+collision_mask = 0
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GoalStar/Trigger" unique_id=1980004248]
+shape = SubResource("StarShape")
+
+[node name="Inventory" parent="." unique_id=192753129 instance=ExtResource("inventory")]
+
+[node name="GoldenPetal" type="Sprite2D" parent="." unique_id=748890262]
+position = Vector2(866, 530)
+texture = SubResource("PetalCrop")
+
+[node name="ResetIcon" type="Sprite2D" parent="." unique_id=1106979312]
+position = Vector2(29, 27)
+texture = ExtResource("reset")
+centered = false
+
+[node name="PlayIcon" type="Sprite2D" parent="." unique_id=898622456]
+position = Vector2(101, 14)
+texture = ExtResource("play")
+centered = false
+
+[node name="PlaceSound" type="AudioStreamPlayer" parent="." unique_id=344547871]
+stream = ExtResource("pickup")
+volume_db = -20.0
+
+[node name="PickupSound" type="AudioStreamPlayer" parent="." unique_id=40311811]
+stream = ExtResource("pickup")
+volume_db = -23.0
+
+[node name="HornSound" type="AudioStreamPlayer" parent="." unique_id=1809691137]
+stream = ExtResource("horn")
+volume_db = -18.0
+
+[node name="CompleteSound" type="AudioStreamPlayer" parent="." unique_id=253314596]
+stream = ExtResource("complete")
+volume_db = -22.0
+
+[node name="Transition" parent="." unique_id=288961974 instance=ExtResource("transition")]
+
+[connection signal="frame_changed" from="Butterfly/Wings" to="." method="_on_wings_frame_changed"]
+[connection signal="area_entered" from="Butterfly/StarDetector" to="." method="_on_star_detector_area_entered"]
+[connection signal="covered" from="Transition" to="." method="_on_transition_covered"]

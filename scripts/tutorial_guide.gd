@@ -58,7 +58,7 @@ func update_holes() -> void:
 		Step.PLACE:
 			for index in range(level.branches.size()):
 				if level.locations[index] == level.Location.INVENTORY:
-					holes.append(Rect2(level.SLOT_CENTERS[index] - Vector2(65, 55), Vector2(130, 110)))
+					holes.append(Rect2(level.backpack.slot_center(level.branches[index]) - Vector2(65, 55), Vector2(130, 110)))
 			holes.append(DROP_AREA)
 			if level.held >= 0:
 				holes.append(sprite_bounds(level.branches[level.held]))
@@ -108,3 +108,10 @@ func rotation_released() -> void:
 func finish() -> void:
 	step = Step.DONE
 	hide()
+
+func on_level_reset() -> void:
+	if step == Step.DONE:
+		return
+	step = Step.COLLECT if level.locations.has(level.Location.TREE) else Step.PLACE
+	right_rotation = 0.0
+	_process(0.0)
