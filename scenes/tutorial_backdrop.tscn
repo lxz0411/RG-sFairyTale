@@ -17,6 +17,8 @@
 [ext_resource type="Texture2D" uid="uid://bodylyoeg2cl4" path="res://assets/tutorial/final/traveler.png" id="traveler"]
 [ext_resource type="Script" path="res://scripts/level_item.gd" id="item_script"]
 
+[ext_resource type="PackedScene" path="res://scenes/level_select_link.tscn" id="menu_link"]
+
 [sub_resource type="CircleShape2D" id="star_trigger"]
 radius = 19.0
 
@@ -29,6 +31,7 @@ size = Vector2(60, 155)
 
 [node name="TutorialBackdrop" type="Node2D" unique_id=1506146982]
 script = ExtResource("script")
+level_number = 0
 next_level_scene = "res://scenes/level_1.tscn"
 
 [node name="Background" type="Sprite2D" parent="." unique_id=1706266298]
@@ -137,6 +140,10 @@ volume_db = -22.0
 
 [node name="Guide" parent="." unique_id=1178614537 instance=ExtResource("guide")]
 
+[node name="MenuLink" parent="." instance=ExtResource("menu_link")]
+
 [connection signal="area_entered" from="Traveler/StarDetector" to="." method="_on_star_detector_area_entered"]
 [connection signal="covered" from="Transition" to="." method="_on_transition_covered"]
 [connection signal="revealed" from="Transition" to="Guide" method="_on_revealed"]
+
+[connection signal="pressed" from="MenuLink/Button" to="." method="return_to_level_select"]

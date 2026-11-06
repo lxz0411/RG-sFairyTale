@@ -1,6 +1,8 @@
 extends Node2D
 ## Common inventory, UI and reset flow. Levels only reset their own simulation.
 
+@export var level_number := -1
+
 @onready var backpack = $Inventory
 @onready var play_texture: Texture2D = $PlayIcon.texture
 @onready var reset_texture: Texture2D = $ResetIcon.texture
@@ -52,6 +54,13 @@ func reset_level() -> void:
 	$PlayIcon.texture = play_texture
 	$ResetIcon.texture = reset_texture
 	reset_simulation()
+
+func record_completion() -> void:
+	get_node("/root/GameProgress").complete_level(level_number)
+
+func return_to_level_select() -> void:
+	if not $Transition.visible:
+		get_tree().change_scene_to_file("res://scenes/level_select.tscn")
 
 func can_edit() -> bool:
 	return false

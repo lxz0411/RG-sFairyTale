@@ -428,6 +428,7 @@ func pass_level() -> void:
 	if phase == Phase.COMPLETE:
 		return
 	phase = Phase.COMPLETE
+	record_completion()
 	selected_branch = -1
 	held = -1
 	rotating_branch = -1

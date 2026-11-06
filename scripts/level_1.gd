@@ -283,6 +283,7 @@ func pass_level() -> void:
 	if phase == Phase.COMPLETE:
 		return
 	phase = Phase.COMPLETE
+	record_completion()
 	$PlayIcon.texture = play_texture
 	level_passed.emit()
 	var origin: Vector2 = $GoldenPetal.position

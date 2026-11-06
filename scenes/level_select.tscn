@@ -1,0 +1,57 @@
+[gd_scene format=3 uid="uid://dv46q3kjwweve"]
+
+[ext_resource type="Texture2D" uid="uid://c1sc8ossci0as" path="res://assets/level_select/background.png" id="background"]
+[ext_resource type="PackedScene" path="res://scenes/level_select_button.tscn" id="button"]
+[ext_resource type="Script" uid="uid://dw1au366737sc" path="res://scripts/level_select.gd" id="script"]
+[ext_resource type="PackedScene" path="res://scenes/circle_transition.tscn" id="transition"]
+[ext_resource type="Texture2D" path="res://assets/tutorial/final/reset.png" id="reset"]
+[ext_resource type="Texture2D" path="res://assets/tutorial/final/reset_selected.png" id="reset_selected"]
+
+[node name="LevelSelect" type="Control" unique_id=2101102057]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("script")
+
+[node name="Background" type="Sprite2D" parent="." unique_id=1122009917]
+texture = ExtResource("background")
+centered = false
+
+[node name="Level0" parent="." unique_id=1774532468 instance=ExtResource("button")]
+anchors_preset = 0
+offset_left = 150.0
+offset_top = 150.0
+offset_right = 330.0
+offset_bottom = 420.0
+level_scene = "res://scenes/tutorial_backdrop.tscn"
+
+[node name="Level1" parent="." unique_id=883643253 instance=ExtResource("button")]
+anchors_preset = 0
+offset_left = 370.0
+offset_top = 150.0
+offset_right = 550.0
+offset_bottom = 420.0
+level_number = 1
+level_scene = "res://scenes/level_1.tscn"
+
+[node name="ResetProgress" type="TextureButton" parent="."]
+offset_left = 29.0
+offset_top = 27.0
+offset_right = 88.0
+offset_bottom = 89.0
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource("reset")
+texture_pressed = ExtResource("reset_selected")
+texture_hover = ExtResource("reset_selected")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Transition" parent="." unique_id=1131646993 instance=ExtResource("transition")]
+
+[connection signal="level_selected" from="Level0" to="." method="_on_level_selected"]
+[connection signal="level_selected" from="Level1" to="." method="_on_level_selected"]
+[connection signal="covered" from="Transition" to="." method="_on_transition_covered"]
+[connection signal="pressed" from="ResetProgress" to="." method="_on_reset_progress_pressed"]

@@ -77,6 +77,7 @@ func run() -> void:
 		if scene.phase != scene.Phase.WALK:
 			break
 	check(scene.phase == scene.Phase.COMPLETE, "Connected angled bridge did not complete. Position %s phase %s" % [scene.traveler.position, scene.phase])
+	check(root.get_node("GameProgress").is_completed(0), "Real tutorial crossing must record level 0 completion")
 	scene.reset_level()
 	await physics_frame
 	await physics_frame

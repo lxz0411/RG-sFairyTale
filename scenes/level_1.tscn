@@ -19,6 +19,8 @@
 [ext_resource type="Texture2D" uid="uid://b26piulxyah5c" path="res://assets/tutorial/final/star.png" id="star"]
 [ext_resource type="PackedScene" path="res://scenes/circle_transition.tscn" id="transition"]
 
+[ext_resource type="PackedScene" path="res://scenes/level_select_link.tscn" id="menu_link"]
+
 [sub_resource type="AtlasTexture" id="ClosedWings"]
 atlas = ExtResource("rest")
 region = Rect2(0, 0, 63, 101)
@@ -64,7 +66,8 @@ region = Rect2(865, 432, 43, 31)
 
 [node name="Level1" type="Node2D" unique_id=1388487588]
 script = ExtResource("script")
-next_level_scene = "uid://yfwpcden1q4r"
+level_number = 1
+next_level_scene = "res://scenes/level_select.tscn"
 
 [node name="Background" type="Sprite2D" parent="." unique_id=429345360]
 z_index = -10
@@ -214,6 +217,10 @@ volume_db = -22.0
 
 [node name="Transition" parent="." unique_id=288961974 instance=ExtResource("transition")]
 
+[node name="MenuLink" parent="." instance=ExtResource("menu_link")]
+
 [connection signal="frame_changed" from="Butterfly/Wings" to="." method="_on_wings_frame_changed"]
 [connection signal="area_entered" from="Butterfly/StarDetector" to="." method="_on_star_detector_area_entered"]
 [connection signal="covered" from="Transition" to="." method="_on_transition_covered"]
+
+[connection signal="pressed" from="MenuLink/Button" to="." method="return_to_level_select"]

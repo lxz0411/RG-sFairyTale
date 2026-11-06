@@ -1,0 +1,21 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/ui/return_arrow.png" id="arrow"]
+
+[sub_resource type="AtlasTexture" id="ReturnArrow"]
+atlas = ExtResource("arrow")
+region = Rect2(220, 375, 812, 548)
+
+[node name="MenuLink" type="CanvasLayer"]
+layer = 10
+
+[node name="Button" type="TextureButton" parent="."]
+self_modulate = Color(0.817, 0.81, 0.839, 1)
+offset_left = 198.0
+offset_top = 20.0
+offset_right = 258.0
+offset_bottom = 76.0
+mouse_default_cursor_shape = 2
+texture_normal = SubResource("ReturnArrow")
+ignore_texture_size = true
+stretch_mode = 5

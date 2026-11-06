@@ -155,6 +155,8 @@ func run() -> void:
 		return
 	if not check(scene.phase == scene.Phase.COMPLETE and scene.star_collected, "Correct arrangement must cross the star and perch"):
 		return
+	if not check(root.get_node("GameProgress").is_completed(1), "Real butterfly completion must record level 1 progress"):
+		return
 	if not check(scene.horn_blow_count == 2, "Each horn should blow once as butterfly approaches"):
 		return
 	for frame in range(240):
