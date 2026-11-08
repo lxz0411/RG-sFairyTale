@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://d18v5hf3oyvcn"]
 
-[ext_resource type="Texture2D" uid="uid://dgn8tjim2qeng" path="res://assets/level1/back_new.png" id="2_x2xxo"]
+[ext_resource type="Texture2D" uid="uid://qwtieexatpxr" path="res://assets/level1/level1_bg.png" id="2_2cbcq"]
 [ext_resource type="AudioStream" uid="uid://b8r5v342pn72n" path="res://assets/tutorial/final/complete.wav" id="complete"]
 [ext_resource type="Texture2D" uid="uid://cckn11k5gqn6f" path="res://assets/level1/level1_flower1.png" id="flower1"]
 [ext_resource type="Texture2D" uid="uid://bc34jbk2yq01y" path="res://assets/level1/level1_flower2.png" id="flower2"]
@@ -9,7 +9,8 @@
 [ext_resource type="Texture2D" uid="uid://cuww7ar3psmjc" path="res://assets/level1/level1_horn1.png" id="horn1"]
 [ext_resource type="Texture2D" uid="uid://cb5a83gvyjt8" path="res://assets/level1/level1_horn2.png" id="horn2"]
 [ext_resource type="PackedScene" path="res://scenes/hand_drawn_inventory.tscn" id="inventory"]
-[ext_resource type="Script" path="res://scripts/level_item.gd" id="item_script"]
+[ext_resource type="Script" uid="uid://c755w1arro3un" path="res://scripts/level_item.gd" id="item_script"]
+[ext_resource type="PackedScene" path="res://scenes/level_select_link.tscn" id="menu_link"]
 [ext_resource type="Texture2D" uid="uid://gf5mya2y00jk" path="res://assets/level1/level1_goldenflower.png" id="petal"]
 [ext_resource type="AudioStream" uid="uid://c65rbgguv3sf3" path="res://assets/tutorial/final/place.wav" id="pickup"]
 [ext_resource type="Texture2D" uid="uid://wmd4povc3eqf" path="res://assets/tutorial/final/play.png" id="play"]
@@ -18,8 +19,6 @@
 [ext_resource type="Script" uid="uid://d14q4tr1phu6q" path="res://scripts/level_1.gd" id="script"]
 [ext_resource type="Texture2D" uid="uid://b26piulxyah5c" path="res://assets/tutorial/final/star.png" id="star"]
 [ext_resource type="PackedScene" path="res://scenes/circle_transition.tscn" id="transition"]
-
-[ext_resource type="PackedScene" path="res://scenes/level_select_link.tscn" id="menu_link"]
 
 [sub_resource type="AtlasTexture" id="ClosedWings"]
 atlas = ExtResource("rest")
@@ -66,12 +65,12 @@ region = Rect2(865, 432, 43, 31)
 
 [node name="Level1" type="Node2D" unique_id=1388487588]
 script = ExtResource("script")
-level_number = 1
 next_level_scene = "res://scenes/level_select.tscn"
+level_number = 1
 
 [node name="Background" type="Sprite2D" parent="." unique_id=429345360]
 z_index = -10
-texture = ExtResource("2_x2xxo")
+texture = ExtResource("2_2cbcq")
 centered = false
 
 [node name="Anchors" type="Node2D" parent="." unique_id=413650856]
@@ -217,10 +216,8 @@ volume_db = -22.0
 
 [node name="Transition" parent="." unique_id=288961974 instance=ExtResource("transition")]
 
-[node name="MenuLink" parent="." instance=ExtResource("menu_link")]
+[node name="MenuLink" parent="." unique_id=782165610 instance=ExtResource("menu_link")]
 
 [connection signal="frame_changed" from="Butterfly/Wings" to="." method="_on_wings_frame_changed"]
 [connection signal="area_entered" from="Butterfly/StarDetector" to="." method="_on_star_detector_area_entered"]
 [connection signal="covered" from="Transition" to="." method="_on_transition_covered"]
-
-[connection signal="pressed" from="MenuLink/Button" to="." method="return_to_level_select"]
