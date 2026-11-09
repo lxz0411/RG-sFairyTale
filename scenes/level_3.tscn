@@ -1,0 +1,211 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/level3/background.png" id="background"]
+
+[ext_resource type="Texture2D" path="res://assets/level3/clock.png" id="clock"]
+
+[ext_resource type="Texture2D" path="res://assets/level3/book.png" id="book"]
+
+[ext_resource type="Texture2D" path="res://assets/level3/frame.png" id="frame"]
+
+[ext_resource type="Texture2D" path="res://assets/level3/weight.png" id="weight"]
+
+[ext_resource type="Texture2D" path="res://assets/level3/apple.png" id="apple"]
+
+[ext_resource type="Script" path="res://scripts/level_3.gd" id="script"]
+
+[ext_resource type="Script" path="res://scripts/level_item.gd" id="item"]
+
+[ext_resource type="Script" path="res://scripts/level_inventory.gd" id="inventory"]
+
+[ext_resource type="Texture2D" path="res://assets/tutorial/final/play.png" id="play"]
+
+[ext_resource type="Texture2D" path="res://assets/tutorial/final/reset.png" id="reset"]
+
+[ext_resource type="Texture2D" path="res://assets/tutorial/final/star.png" id="star"]
+
+[ext_resource type="Texture2D" path="res://assets/tutorial/final/star_complete.png" id="star_complete"]
+
+[ext_resource type="AudioStream" path="res://assets/tutorial/final/place.wav" id="place"]
+
+[ext_resource type="AudioStream" path="res://assets/tutorial/final/complete.wav" id="complete"]
+
+[ext_resource type="AudioStream" path="res://assets/level3/bell.wav" id="bell_sound"]
+
+[ext_resource type="PackedScene" path="res://scenes/circle_transition.tscn" id="transition"]
+
+[ext_resource type="PackedScene" path="res://scenes/level_select_link.tscn" id="menu"]
+
+[ext_resource type="Script" path="res://scripts/level_3_rewind.gd" id="rewind"]
+
+[ext_resource type="Texture2D" path="res://assets/level3/gear.png" id="gear"]
+
+[ext_resource type="Texture2D" path="res://assets/level3/lever.png" id="lever"]
+
+[ext_resource type="Texture2D" path="res://assets/level3/tray.png" id="tray"]
+
+[sub_resource type="AtlasTexture" id="clock_crop"]
+atlas = ExtResource("clock")
+region = Rect2(562, 400, 711, 837)
+
+[sub_resource type="AtlasTexture" id="book_crop"]
+atlas = ExtResource("book")
+region = Rect2(584, 234, 371, 1084)
+
+[sub_resource type="AtlasTexture" id="frame_crop"]
+atlas = ExtResource("frame")
+region = Rect2(567, 164, 450, 1197)
+
+[sub_resource type="AtlasTexture" id="weight_crop"]
+atlas = ExtResource("weight")
+region = Rect2(568, 431, 394, 754)
+
+[sub_resource type="AtlasTexture" id="apple_crop"]
+atlas = ExtResource("apple")
+region = Rect2(444, 466, 632, 615)
+
+[sub_resource type="AtlasTexture" id="gear_crop"]
+atlas = ExtResource("gear")
+region = Rect2(242, 504, 770, 585)
+
+[sub_resource type="AtlasTexture" id="lever_crop"]
+atlas = ExtResource("lever")
+region = Rect2(154, 352, 1266, 786)
+
+[sub_resource type="AtlasTexture" id="tray_crop"]
+atlas = ExtResource("tray")
+region = Rect2(330, 655, 726, 198)
+
+[node name="Level3" type="Node2D"]
+script = ExtResource("script")
+level_number = 3
+
+[node name="Background" type="Sprite2D" parent="."]
+position = Vector2(0, 0)
+scale = Vector2(1, 1)
+texture = ExtResource("background")
+centered = false
+z_index = -10
+
+[node name="Clock" type="Sprite2D" parent="."]
+position = Vector2(146, 209)
+scale = Vector2(0.1135005973715651, 0.1135005973715651)
+texture = SubResource("clock_crop")
+offset = Vector2(187, 52)
+script = ExtResource("item")
+item_id = &"Clock"
+can_rotate = true
+
+[node name="Book" type="Sprite2D" parent="."]
+position = Vector2(835, 212)
+scale = Vector2(0.07, 0.087)
+texture = SubResource("book_crop")
+offset = Vector2(0, -542)
+
+[node name="Frame" type="Sprite2D" parent="."]
+position = Vector2(263, 354)
+scale = Vector2(0.09, 0.09)
+texture = SubResource("frame_crop")
+offset = Vector2(92, 0)
+rotation = 0.12
+
+[node name="Weight" type="Sprite2D" parent="."]
+position = Vector2(69, 584)
+scale = Vector2(0.0862069, 0.0862069)
+texture = SubResource("weight_crop")
+script = ExtResource("item")
+item_id = &"Weight"
+
+[node name="Gear" type="Sprite2D" parent="."]
+position = Vector2(295, 318)
+scale = Vector2(0.065, 0.065)
+texture = SubResource("gear_crop")
+offset = Vector2(99, -4)
+rotation = 3.14159265
+
+[node name="LowerLever" type="Sprite2D" parent="."]
+position = Vector2(951, 445)
+scale = Vector2(0.1, 0.1)
+texture = SubResource("lever_crop")
+offset = Vector2(89, 235)
+rotation = -0.65
+
+[node name="Tray" type="Sprite2D" parent="."]
+position = Vector2(1049, 448)
+scale = Vector2(0.052, 0.052)
+texture = SubResource("tray_crop")
+
+
+[node name="Apple" type="Sprite2D" parent="."]
+position = Vector2(279, 80)
+scale = Vector2(0.05063291139240506, 0.05063291139240506)
+texture = SubResource("apple_crop")
+z_index = 6
+
+[node name="GoalStar" type="Sprite2D" parent="."]
+position = Vector2(187, 489)
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("star")
+
+
+[node name="Inventory" type="Sprite2D" parent="."]
+script = ExtResource("inventory")
+position = Vector2(1111, 0)
+
+[node name="Icon1" type="Sprite2D" parent="Inventory"]
+position = Vector2(81, 78)
+
+[node name="Icon2" type="Sprite2D" parent="Inventory"]
+position = Vector2(81, 200)
+
+[node name="Icon3" type="Sprite2D" parent="Inventory"]
+position = Vector2(81, 326)
+
+[node name="Icon4" type="Sprite2D" parent="Inventory"]
+position = Vector2(81, 450)
+
+[node name="Icon5" type="Sprite2D" parent="Inventory"]
+position = Vector2(81, 582)
+
+[node name="Icon6" type="Sprite2D" parent="Inventory"]
+position = Vector2(81, 714)
+
+[node name="PlayIcon" type="Sprite2D" parent="."]
+position = Vector2(101, 14)
+scale = Vector2(1, 1)
+texture = ExtResource("play")
+centered = false
+
+[node name="ResetIcon" type="Sprite2D" parent="."]
+position = Vector2(29, 27)
+scale = Vector2(1, 1)
+texture = ExtResource("reset")
+centered = false
+
+[node name="PickupSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("place")
+volume_db = -20.0
+
+[node name="PlaceSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("place")
+volume_db = -20.0
+
+[node name="BellSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("bell_sound")
+volume_db = -20.0
+
+[node name="CompleteSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("complete")
+volume_db = -20.0
+
+[node name="Rewind" type="Node2D" parent="."]
+z_index = 90
+script = ExtResource("rewind")
+
+[node name="Transition" parent="." instance=ExtResource("transition")]
+
+[node name="MenuLink" parent="." instance=ExtResource("menu")]
+
+[connection signal="pressed" from="MenuLink/Button" to="." method="return_to_level_select"]
+
+[connection signal="covered" from="Transition" to="." method="_on_transition_covered"]

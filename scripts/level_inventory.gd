@@ -5,6 +5,11 @@ var entries: Array[Sprite2D] = []
 var dragging: Sprite2D
 @onready var icons: Array[Sprite2D] = [$Icon1, $Icon2, $Icon3, $Icon4, $Icon5]
 
+func _ready() -> void:
+	# Some supplied backgrounds have six slots; existing five-slot levels stay unchanged.
+	if has_node("Icon6"):
+		icons.append($Icon6)
+
 func collect(item: Sprite2D) -> bool:
 	if entries.has(item) or entries.size() >= icons.size():
 		return false
