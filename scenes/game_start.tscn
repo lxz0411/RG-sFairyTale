@@ -1,0 +1,154 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/game_start.gd" id="script"]
+[ext_resource type="Texture2D" path="res://assets/cover/background_clean.png" id="background"]
+[ext_resource type="Texture2D" path="res://assets/cover/door_closed_leaf.png" id="closed"]
+[ext_resource type="Texture2D" path="res://assets/cover/door_open_leaf.png" id="open"]
+[ext_resource type="Texture2D" path="res://assets/cover/door_frame_foreground.png" id="door_frame"]
+[ext_resource type="PackedScene" path="res://scenes/circle_transition.tscn" id="transition"]
+[ext_resource type="Shader" path="res://assets/cover/door_glow.gdshader" id="glow"]
+[ext_resource type="Texture2D" path="res://assets/cover/parts/title_gear.png" id="title_gear"]
+[ext_resource type="Texture2D" path="res://assets/cover/parts/gear_large.png" id="large_gear"]
+[ext_resource type="Texture2D" path="res://assets/cover/parts/gear_small.png" id="small_gear"]
+[ext_resource type="Texture2D" path="res://assets/cover/parts/connecting_rod_short.png" id="short_rod"]
+[ext_resource type="Texture2D" path="res://assets/cover/parts/connecting_rod_long.png" id="long_rod"]
+[ext_resource type="Texture2D" path="res://assets/cover/parts/traveler.png" id="traveler"]
+[ext_resource type="Texture2D" path="res://assets/cover/parts/scarf.png" id="scarf"]
+[ext_resource type="Shader" path="res://assets/cover/scarf_wave.gdshader" id="scarf_wave"]
+[ext_resource type="Texture2D" path="res://assets/cover/parts/butterfly_flight.png" id="butterfly"]
+
+[sub_resource type="AtlasTexture" id="ClosedDoor"]
+atlas = ExtResource("closed")
+region = Rect2(1074, 462, 132, 220)
+
+[sub_resource type="AtlasTexture" id="OpenDoor"]
+atlas = ExtResource("open")
+region = Rect2(1074, 462, 132, 220)
+
+[sub_resource type="ShaderMaterial" id="DoorGlow"]
+resource_local_to_scene = true
+shader = ExtResource("glow")
+shader_parameter/door_texture = ExtResource("closed")
+shader_parameter/frame_texture = ExtResource("door_frame")
+shader_parameter/hover_amount = 0.65
+shader_parameter/canvas_origin = Vector2(1032, 418)
+shader_parameter/canvas_size = Vector2(216, 308)
+
+[sub_resource type="ShaderMaterial" id="ScarfWave"]
+resource_local_to_scene = true
+shader = ExtResource("scarf_wave")
+shader_parameter/wave_time = 0.0
+shader_parameter/wave_amplitude = 0.035
+
+[sub_resource type="AtlasTexture" id="WingsOpen"]
+atlas = ExtResource("butterfly")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="WingsHalf"]
+atlas = ExtResource("butterfly")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="WingsClosed"]
+atlas = ExtResource("butterfly")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="SpriteFrames" id="ButterflyFlight"]
+animations = [{
+"frames": [{"duration": 1.0, "texture": SubResource("WingsOpen")}, {"duration": 1.0, "texture": SubResource("WingsHalf")}, {"duration": 1.0, "texture": SubResource("WingsClosed")}, {"duration": 1.0, "texture": SubResource("WingsHalf")}],
+"loop": true,
+"name": &"fly",
+"speed": 8.0
+}]
+
+[node name="GameStart" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("script")
+open_texture = SubResource("OpenDoor")
+
+[node name="Background" type="Sprite2D" parent="."]
+texture = ExtResource("background")
+centered = false
+
+[node name="Traveler" type="Node2D" parent="."]
+position = Vector2(144, 528)
+
+[node name="Scarf" type="Sprite2D" parent="Traveler"]
+material = SubResource("ScarfWave")
+position = Vector2(-171, -76)
+texture = ExtResource("scarf")
+centered = false
+
+[node name="Body" type="Sprite2D" parent="Traveler"]
+texture = ExtResource("traveler")
+
+[node name="Butterfly" type="AnimatedSprite2D" parent="."]
+position = Vector2(941, 455)
+scale = Vector2(0.9, 0.9)
+sprite_frames = SubResource("ButterflyFlight")
+animation = &"fly"
+autoplay = "fly"
+
+[node name="Mechanism" type="Node2D" parent="."]
+
+[node name="TitleGear" type="Sprite2D" parent="Mechanism"]
+position = Vector2(590, 201)
+scale = Vector2(0.53, 0.53)
+texture = ExtResource("title_gear")
+
+[node name="LargeGear" type="Sprite2D" parent="Mechanism"]
+position = Vector2(362, 599)
+scale = Vector2(0.47, 0.47)
+texture = ExtResource("large_gear")
+offset = Vector2(0, 1)
+
+[node name="SmallGear" type="Sprite2D" parent="Mechanism"]
+position = Vector2(441, 615)
+scale = Vector2(0.44, 0.44)
+texture = ExtResource("small_gear")
+offset = Vector2(1, 1)
+
+[node name="ShortRod" type="Sprite2D" parent="Mechanism"]
+position = Vector2(347.5353, 574.3564)
+rotation = 0.177854
+scale = Vector2(0.442772, 0.442772)
+texture = ExtResource("short_rod")
+centered = false
+
+[node name="LongRod" type="Sprite2D" parent="Mechanism"]
+position = Vector2(427.394, 591.2388)
+rotation = -0.096601
+scale = Vector2(0.351587, 0.351587)
+texture = ExtResource("long_rod")
+centered = false
+
+[node name="DoorGlow" type="ColorRect" parent="."]
+material = SubResource("DoorGlow")
+offset_left = 1032.0
+offset_top = 418.0
+offset_right = 1248.0
+offset_bottom = 726.0
+mouse_filter = 2
+
+[node name="Door" type="TextureButton" parent="."]
+offset_left = 1074.0
+offset_top = 462.0
+offset_right = 1206.0
+offset_bottom = 682.0
+mouse_default_cursor_shape = 2
+texture_normal = SubResource("ClosedDoor")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="DoorFrameForeground" type="Sprite2D" parent="."]
+texture = ExtResource("door_frame")
+centered = false
+
+[node name="Transition" parent="." instance=ExtResource("transition")]
+
+[connection signal="pressed" from="Door" to="." method="_on_door_pressed"]
+[connection signal="covered" from="Transition" to="." method="_on_transition_covered"]
