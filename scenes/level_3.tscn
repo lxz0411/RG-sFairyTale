@@ -1,48 +1,27 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://omo72al1gexk"]
 
-[ext_resource type="Texture2D" path="res://assets/level3/background.png" id="background"]
-
-[ext_resource type="Texture2D" path="res://assets/level3/clock.png" id="clock"]
-
-[ext_resource type="Texture2D" path="res://assets/level3/book.png" id="book"]
-
-[ext_resource type="Texture2D" path="res://assets/level3/frame.png" id="frame"]
-
-[ext_resource type="Texture2D" path="res://assets/level3/weight.png" id="weight"]
-
-[ext_resource type="Texture2D" path="res://assets/level3/apple.png" id="apple"]
-
-[ext_resource type="Script" path="res://scripts/level_3.gd" id="script"]
-
-[ext_resource type="Script" path="res://scripts/level_item.gd" id="item"]
-
-[ext_resource type="Script" path="res://scripts/level_inventory.gd" id="inventory"]
-
-[ext_resource type="Texture2D" path="res://assets/tutorial/final/play.png" id="play"]
-
-[ext_resource type="Texture2D" path="res://assets/tutorial/final/reset.png" id="reset"]
-
-[ext_resource type="Texture2D" path="res://assets/tutorial/final/star.png" id="star"]
-
-[ext_resource type="Texture2D" path="res://assets/tutorial/final/star_complete.png" id="star_complete"]
-
-[ext_resource type="AudioStream" path="res://assets/tutorial/final/place.wav" id="place"]
-
-[ext_resource type="AudioStream" path="res://assets/tutorial/final/complete.wav" id="complete"]
-
-[ext_resource type="AudioStream" path="res://assets/level3/bell.wav" id="bell_sound"]
-
-[ext_resource type="PackedScene" path="res://scenes/circle_transition.tscn" id="transition"]
-
+[ext_resource type="Texture2D" uid="uid://qnc8ee4stss4" path="res://assets/level3/apple.png" id="apple"]
+[ext_resource type="Texture2D" uid="uid://b71tmrydllwl3" path="res://assets/level3/background_without_gentleman.png" id="background"]
+[ext_resource type="AudioStream" uid="uid://dxyuoy2sbools" path="res://assets/level3/bell.wav" id="bell_sound"]
+[ext_resource type="Texture2D" uid="uid://bqrvih7ecfgbf" path="res://assets/level3/book.png" id="book"]
+[ext_resource type="Texture2D" uid="uid://d3aggvelvha5m" path="res://assets/level3/clock.png" id="clock"]
+[ext_resource type="AudioStream" uid="uid://b8r5v342pn72n" path="res://assets/tutorial/final/complete.wav" id="complete"]
+[ext_resource type="Texture2D" uid="uid://d3qbbeefjflnx" path="res://assets/level3/frame.png" id="frame"]
+[ext_resource type="Texture2D" uid="uid://d3mnyims2nl7b" path="res://assets/level3/gear.png" id="gear"]
+[ext_resource type="PackedScene" path="res://scenes/level_3_gentleman.tscn" id="gentleman"]
+[ext_resource type="Script" uid="uid://cegyy5bf0cofp" path="res://scripts/level_inventory.gd" id="inventory"]
+[ext_resource type="Script" uid="uid://c755w1arro3un" path="res://scripts/level_item.gd" id="item"]
+[ext_resource type="Texture2D" uid="uid://c1kkf30behc0m" path="res://assets/level3/lever.png" id="lever"]
 [ext_resource type="PackedScene" path="res://scenes/level_select_link.tscn" id="menu"]
-
-[ext_resource type="Script" path="res://scripts/level_3_rewind.gd" id="rewind"]
-
-[ext_resource type="Texture2D" path="res://assets/level3/gear.png" id="gear"]
-
-[ext_resource type="Texture2D" path="res://assets/level3/lever.png" id="lever"]
-
-[ext_resource type="Texture2D" path="res://assets/level3/tray.png" id="tray"]
+[ext_resource type="AudioStream" uid="uid://c65rbgguv3sf3" path="res://assets/tutorial/final/place.wav" id="place"]
+[ext_resource type="Texture2D" uid="uid://wmd4povc3eqf" path="res://assets/tutorial/final/play.png" id="play"]
+[ext_resource type="Texture2D" uid="uid://ccorkn02fh60k" path="res://assets/tutorial/final/reset.png" id="reset"]
+[ext_resource type="Script" uid="uid://dymhkdqohmpjw" path="res://scripts/level_3_rewind.gd" id="rewind"]
+[ext_resource type="Script" uid="uid://davwkcg2u0ujl" path="res://scripts/level_3.gd" id="script"]
+[ext_resource type="Texture2D" uid="uid://b26piulxyah5c" path="res://assets/tutorial/final/star.png" id="star"]
+[ext_resource type="PackedScene" path="res://scenes/circle_transition.tscn" id="transition"]
+[ext_resource type="Texture2D" uid="uid://dvynvy7t3q8ih" path="res://assets/level3/tray.png" id="tray"]
+[ext_resource type="Texture2D" uid="uid://b3hwygxgfxn47" path="res://assets/level3/weight.png" id="weight"]
 
 [sub_resource type="AtlasTexture" id="clock_crop"]
 atlas = ExtResource("clock")
@@ -60,10 +39,6 @@ region = Rect2(567, 164, 450, 1197)
 atlas = ExtResource("weight")
 region = Rect2(568, 431, 394, 754)
 
-[sub_resource type="AtlasTexture" id="apple_crop"]
-atlas = ExtResource("apple")
-region = Rect2(444, 466, 632, 615)
-
 [sub_resource type="AtlasTexture" id="gear_crop"]
 atlas = ExtResource("gear")
 region = Rect2(242, 504, 770, 585)
@@ -76,136 +51,134 @@ region = Rect2(154, 352, 1266, 786)
 atlas = ExtResource("tray")
 region = Rect2(330, 655, 726, 198)
 
-[node name="Level3" type="Node2D"]
+[sub_resource type="AtlasTexture" id="apple_crop"]
+atlas = ExtResource("apple")
+region = Rect2(444, 466, 632, 615)
+
+[node name="Level3" type="Node2D" unique_id=23785276]
 script = ExtResource("script")
 level_number = 3
 
-[node name="Background" type="Sprite2D" parent="."]
-position = Vector2(0, 0)
-scale = Vector2(1, 1)
+[node name="Background" type="Sprite2D" parent="." unique_id=1876756369]
+z_index = -10
 texture = ExtResource("background")
 centered = false
-z_index = -10
 
-[node name="Clock" type="Sprite2D" parent="."]
+[node name="Gentleman" parent="." unique_id=1678986427 instance=ExtResource("gentleman")]
+
+[node name="Clock" type="Sprite2D" parent="." unique_id=1964549757]
 position = Vector2(146, 209)
-scale = Vector2(0.1135005973715651, 0.1135005973715651)
+scale = Vector2(0.113500595, 0.113500595)
 texture = SubResource("clock_crop")
 offset = Vector2(187, 52)
 script = ExtResource("item")
 item_id = &"Clock"
-can_rotate = true
 
-[node name="Book" type="Sprite2D" parent="."]
+[node name="Book" type="Sprite2D" parent="." unique_id=412126146]
 position = Vector2(835, 212)
 scale = Vector2(0.07, 0.087)
 texture = SubResource("book_crop")
 offset = Vector2(0, -542)
 
-[node name="Frame" type="Sprite2D" parent="."]
+[node name="Frame" type="Sprite2D" parent="." unique_id=2133600556]
 position = Vector2(263, 354)
+rotation = 0.12
 scale = Vector2(0.09, 0.09)
 texture = SubResource("frame_crop")
 offset = Vector2(92, 0)
-rotation = 0.12
 
-[node name="Weight" type="Sprite2D" parent="."]
+[node name="Weight" type="Sprite2D" parent="." unique_id=557831017]
 position = Vector2(69, 584)
 scale = Vector2(0.0862069, 0.0862069)
 texture = SubResource("weight_crop")
 script = ExtResource("item")
 item_id = &"Weight"
 
-[node name="Gear" type="Sprite2D" parent="."]
+[node name="Gear" type="Sprite2D" parent="." unique_id=62079775]
 position = Vector2(295, 318)
+rotation = 3.1415927
 scale = Vector2(0.065, 0.065)
 texture = SubResource("gear_crop")
 offset = Vector2(99, -4)
-rotation = 3.14159265
 
-[node name="LowerLever" type="Sprite2D" parent="."]
+[node name="LowerLever" type="Sprite2D" parent="." unique_id=450591686]
 position = Vector2(951, 445)
+rotation = -0.65
 scale = Vector2(0.1, 0.1)
 texture = SubResource("lever_crop")
 offset = Vector2(89, 235)
-rotation = -0.65
 
-[node name="Tray" type="Sprite2D" parent="."]
+[node name="Tray" type="Sprite2D" parent="." unique_id=848660568]
 position = Vector2(1049, 448)
 scale = Vector2(0.052, 0.052)
 texture = SubResource("tray_crop")
 
-
-[node name="Apple" type="Sprite2D" parent="."]
-position = Vector2(279, 80)
-scale = Vector2(0.05063291139240506, 0.05063291139240506)
-texture = SubResource("apple_crop")
+[node name="Apple" type="Sprite2D" parent="." unique_id=1628012704]
 z_index = 6
+position = Vector2(279, 80)
+scale = Vector2(0.050632913, 0.050632913)
+texture = SubResource("apple_crop")
 
-[node name="GoalStar" type="Sprite2D" parent="."]
-position = Vector2(187, 489)
+[node name="GoalStar" type="Sprite2D" parent="." unique_id=310937526]
+position = Vector2(187, 469.00003)
 scale = Vector2(0.6, 0.6)
 texture = ExtResource("star")
 
-
-[node name="Inventory" type="Sprite2D" parent="."]
-script = ExtResource("inventory")
+[node name="Inventory" type="Sprite2D" parent="." unique_id=2047402955]
 position = Vector2(1111, 0)
+script = ExtResource("inventory")
 
-[node name="Icon1" type="Sprite2D" parent="Inventory"]
+[node name="Icon1" type="Sprite2D" parent="Inventory" unique_id=1989826405]
 position = Vector2(81, 78)
 
-[node name="Icon2" type="Sprite2D" parent="Inventory"]
+[node name="Icon2" type="Sprite2D" parent="Inventory" unique_id=1872828353]
 position = Vector2(81, 200)
 
-[node name="Icon3" type="Sprite2D" parent="Inventory"]
+[node name="Icon3" type="Sprite2D" parent="Inventory" unique_id=502548104]
 position = Vector2(81, 326)
 
-[node name="Icon4" type="Sprite2D" parent="Inventory"]
+[node name="Icon4" type="Sprite2D" parent="Inventory" unique_id=842548533]
 position = Vector2(81, 450)
 
-[node name="Icon5" type="Sprite2D" parent="Inventory"]
+[node name="Icon5" type="Sprite2D" parent="Inventory" unique_id=802142672]
 position = Vector2(81, 582)
 
-[node name="Icon6" type="Sprite2D" parent="Inventory"]
+[node name="Icon6" type="Sprite2D" parent="Inventory" unique_id=2012536319]
 position = Vector2(81, 714)
 
-[node name="PlayIcon" type="Sprite2D" parent="."]
+[node name="PlayIcon" type="Sprite2D" parent="." unique_id=990442954]
 position = Vector2(101, 14)
-scale = Vector2(1, 1)
 texture = ExtResource("play")
 centered = false
 
-[node name="ResetIcon" type="Sprite2D" parent="."]
+[node name="ResetIcon" type="Sprite2D" parent="." unique_id=517489276]
 position = Vector2(29, 27)
-scale = Vector2(1, 1)
 texture = ExtResource("reset")
 centered = false
 
-[node name="PickupSound" type="AudioStreamPlayer" parent="."]
+[node name="PickupSound" type="AudioStreamPlayer" parent="." unique_id=1072834917]
 stream = ExtResource("place")
 volume_db = -20.0
 
-[node name="PlaceSound" type="AudioStreamPlayer" parent="."]
+[node name="PlaceSound" type="AudioStreamPlayer" parent="." unique_id=1258707711]
 stream = ExtResource("place")
 volume_db = -20.0
 
-[node name="BellSound" type="AudioStreamPlayer" parent="."]
+[node name="BellSound" type="AudioStreamPlayer" parent="." unique_id=20957173]
 stream = ExtResource("bell_sound")
 volume_db = -20.0
 
-[node name="CompleteSound" type="AudioStreamPlayer" parent="."]
+[node name="CompleteSound" type="AudioStreamPlayer" parent="." unique_id=1477323704]
 stream = ExtResource("complete")
 volume_db = -20.0
 
-[node name="Rewind" type="Node2D" parent="."]
+[node name="Rewind" type="Node2D" parent="." unique_id=2140932978]
 z_index = 90
 script = ExtResource("rewind")
 
-[node name="Transition" parent="." instance=ExtResource("transition")]
+[node name="Transition" parent="." unique_id=610858800 instance=ExtResource("transition")]
 
-[node name="MenuLink" parent="." instance=ExtResource("menu")]
+[node name="MenuLink" parent="." unique_id=1063050457 instance=ExtResource("menu")]
 
-[connection signal="pressed" from="MenuLink/Button" to="." method="return_to_level_select"]
-
+[connection signal="salute_finished" from="Gentleman" to="." method="_on_salute_finished"]
 [connection signal="covered" from="Transition" to="." method="_on_transition_covered"]

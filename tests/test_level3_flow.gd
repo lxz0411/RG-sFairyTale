@@ -67,6 +67,7 @@ func run() -> void:
 	var success := await simulate()
 	print("CHAIN ",success)
 	check(success.book and success.cap and success.frame and success.early_weight and success.complete,"Full confirmed chain reaches plate")
+	check(level.get_node("Gentleman").saluting,"Apple settling in the plate triggers the gentleman's salute")
 	check(progress.is_completed(3) and not progress.is_completed(1),"Completion records only level 3")
 	check(level.settled_time >= 0.55,"Fruit must settle in the plate, not merely cross the area")
 	if "--visual-check" in OS.get_cmdline_user_args():

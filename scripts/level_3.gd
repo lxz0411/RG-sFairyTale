@@ -254,6 +254,7 @@ func reset_level() -> void:
 func stop_level_activity() -> void:
 	if animation != null:
 		animation.kill()
+	$Gentleman.reset_pose()
 	selected = null
 	rotating = false
 
@@ -268,11 +269,13 @@ func pass_level() -> void:
 	$PlayIcon.texture = play_texture
 	record_completion()
 	level_passed.emit()
+	$Gentleman.play_salute()
 	animation = create_tween()
 	animation.tween_property($Apple, "modulate:a", 0.0, 0.3)
-	animation.tween_interval(2.0)
-	if not next_level_scene.is_empty():
-		animation.tween_callback($Transition.play_exit)
+
+func _on_salute_finished() -> void:
+	if phase == Phase.COMPLETE and not next_level_scene.is_empty():
+		$Transition.play_exit()
 
 func _on_transition_covered() -> void:
 	if phase == Phase.COMPLETE and not next_level_scene.is_empty():
