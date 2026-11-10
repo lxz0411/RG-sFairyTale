@@ -26,14 +26,24 @@ offset_left = 150.0
 offset_top = 150.0
 offset_right = 330.0
 offset_bottom = 420.0
-display_number = 1
+display_number = 0
 level_scene = "res://scenes/tutorial_backdrop.tscn"
 
-[node name="Level3" parent="." instance=ExtResource("button")]
+[node name="Level1" parent="." instance=ExtResource("button")]
 anchors_preset = 0
 offset_left = 370.0
 offset_top = 150.0
 offset_right = 550.0
+offset_bottom = 420.0
+level_number = 1
+display_number = 1
+level_scene = "res://scenes/level_1.tscn"
+
+[node name="Level3" parent="." instance=ExtResource("button")]
+anchors_preset = 0
+offset_left = 590.0
+offset_top = 150.0
+offset_right = 770.0
 offset_bottom = 420.0
 level_number = 3
 display_number = 2
@@ -41,9 +51,9 @@ level_scene = "res://scenes/level_3.tscn"
 
 [node name="Level4" parent="." instance=ExtResource("button")]
 anchors_preset = 0
-offset_left = 590.0
+offset_left = 810.0
 offset_top = 150.0
-offset_right = 770.0
+offset_right = 990.0
 offset_bottom = 420.0
 level_number = 4
 display_number = 3
@@ -70,3 +80,5 @@ stretch_mode = 5
 [connection signal="level_selected" from="Level3" to="." method="_on_level_selected"]
 
 [connection signal="level_selected" from="Level4" to="." method="_on_level_selected"]
+
+[connection signal="level_selected" from="Level1" to="." method="_on_level_selected"]
