@@ -2,6 +2,8 @@ extends Control
 
 signal level_selected(scene_path: String)
 @export var level_number := 0
+# Display order is independent of the persistent completion ID.
+@export var display_number := -1
 @export_file("*.tscn") var level_scene: String
 @export var complete_texture: Texture2D
 var completed := false
@@ -15,7 +17,7 @@ func _ready() -> void:
 	refresh()
 
 func refresh() -> void:
-	$Number.text = str(level_number)
+	$Number.text = str(display_number if display_number >= 0 else level_number)
 	completed = progress.is_completed(level_number)
 	$Door.texture_normal = complete_texture if completed else normal_texture
 	$Door.texture_hover = complete_texture if completed else hover_texture

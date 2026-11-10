@@ -26,33 +26,27 @@ offset_left = 150.0
 offset_top = 150.0
 offset_right = 330.0
 offset_bottom = 420.0
+display_number = 1
 level_scene = "res://scenes/tutorial_backdrop.tscn"
 
-[node name="Level1" parent="." unique_id=883643253 instance=ExtResource("button")]
+[node name="Level3" parent="." instance=ExtResource("button")]
 anchors_preset = 0
 offset_left = 370.0
 offset_top = 150.0
 offset_right = 550.0
 offset_bottom = 420.0
-level_number = 1
-level_scene = "res://scenes/level_1.tscn"
-
-[node name="Level3" parent="." instance=ExtResource("button")]
-anchors_preset = 0
-offset_left = 810.0
-offset_top = 150.0
-offset_right = 990.0
-offset_bottom = 420.0
 level_number = 3
+display_number = 2
 level_scene = "res://scenes/level_3.tscn"
 
 [node name="Level4" parent="." instance=ExtResource("button")]
 anchors_preset = 0
-offset_left = 150.0
-offset_top = 470.0
-offset_right = 330.0
-offset_bottom = 740.0
+offset_left = 590.0
+offset_top = 150.0
+offset_right = 770.0
+offset_bottom = 420.0
 level_number = 4
+display_number = 3
 level_scene = "res://scenes/level_4.tscn"
 
 [node name="ResetProgress" type="TextureButton" parent="."]
@@ -70,7 +64,6 @@ stretch_mode = 5
 [node name="Transition" parent="." unique_id=1131646993 instance=ExtResource("transition")]
 
 [connection signal="level_selected" from="Level0" to="." method="_on_level_selected"]
-[connection signal="level_selected" from="Level1" to="." method="_on_level_selected"]
 [connection signal="covered" from="Transition" to="." method="_on_transition_covered"]
 [connection signal="pressed" from="ResetProgress" to="." method="_on_reset_progress_pressed"]
 
