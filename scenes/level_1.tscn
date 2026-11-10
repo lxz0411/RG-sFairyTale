@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://d18v5hf3oyvcn"]
 
+[ext_resource type="AudioStream" path="res://assets/audio/拾取.mp3" id="pickup_audio"]
 [ext_resource type="Texture2D" uid="uid://qwtieexatpxr" path="res://assets/level1/level1_bg.png" id="2_2cbcq"]
 [ext_resource type="AudioStream" uid="uid://b8r5v342pn72n" path="res://assets/tutorial/final/complete.wav" id="complete"]
 [ext_resource type="Texture2D" uid="uid://cckn11k5gqn6f" path="res://assets/level1/level1_flower1.png" id="flower1"]
@@ -203,8 +204,8 @@ stream = ExtResource("pickup")
 volume_db = -20.0
 
 [node name="PickupSound" type="AudioStreamPlayer" parent="." unique_id=40311811]
-stream = ExtResource("pickup")
-volume_db = -23.0
+stream = ExtResource("pickup_audio")
+volume_db = -12.0
 
 [node name="HornSound" type="AudioStreamPlayer" parent="." unique_id=1809691137]
 stream = ExtResource("horn")

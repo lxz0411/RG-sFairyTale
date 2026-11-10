@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://omo72al1gexk"]
 
+[ext_resource type="AudioStream" path="res://assets/audio/拾取.mp3" id="pickup_audio"]
 [ext_resource type="Texture2D" uid="uid://qnc8ee4stss4" path="res://assets/level3/apple.png" id="apple"]
 [ext_resource type="Texture2D" uid="uid://b71tmrydllwl3" path="res://assets/level3/background_without_gentleman.png" id="background"]
 [ext_resource type="AudioStream" uid="uid://dxyuoy2sbools" path="res://assets/level3/bell.wav" id="bell_sound"]
@@ -157,8 +158,8 @@ texture = ExtResource("reset")
 centered = false
 
 [node name="PickupSound" type="AudioStreamPlayer" parent="." unique_id=1072834917]
-stream = ExtResource("place")
-volume_db = -20.0
+stream = ExtResource("pickup_audio")
+volume_db = -12.0
 
 [node name="PlaceSound" type="AudioStreamPlayer" parent="." unique_id=1258707711]
 stream = ExtResource("place")

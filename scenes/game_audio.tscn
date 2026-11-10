@@ -1,0 +1,9 @@
+[gd_scene format=3]
+
+[ext_resource type="AudioStream" path="res://assets/audio/放松轻快.mp3" id="music"]
+
+[node name="GameAudio" type="AudioStreamPlayer"]
+process_mode = 3
+stream = ExtResource("music")
+volume_db = -16.0
+autoplay = true

@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://yfwpcden1q4r"]
 
+[ext_resource type="AudioStream" path="res://assets/audio/拾取.mp3" id="pickup_audio"]
 [ext_resource type="Texture2D" uid="uid://coqgbib7dyfbc" path="res://assets/tutorial/final/background.png" id="background"]
 [ext_resource type="Texture2D" uid="uid://k007f1kfjhdb" path="res://assets/tutorial/final/branch_horizontal.png" id="branch_horizontal"]
 [ext_resource type="Texture2D" uid="uid://bypafmltddidr" path="res://assets/tutorial/final/branch_vertical.png" id="branch_vertical"]
@@ -124,9 +125,8 @@ stream = ExtResource("place_sound")
 volume_db = -21.0
 
 [node name="PickupSound" type="AudioStreamPlayer" parent="." unique_id=2021137699]
-stream = ExtResource("place_sound")
-volume_db = -24.0
-pitch_scale = 1.35
+stream = ExtResource("pickup_audio")
+volume_db = -12.0
 
 [node name="FootstepSound" type="AudioStreamPlayer" parent="." unique_id=884745491]
 stream = ExtResource("step_sound")
