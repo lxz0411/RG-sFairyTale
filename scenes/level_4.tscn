@@ -1,0 +1,112 @@
+[gd_scene format=3]
+[ext_resource type="Script" path="res://scripts/level_4.gd" id="script"]
+[ext_resource type="Script" path="res://scripts/level_item.gd" id="item"]
+[ext_resource type="Script" path="res://scripts/level_inventory.gd" id="inventory"]
+[ext_resource type="Texture2D" path="res://assets/level4/closed.png" id="closed"]
+[ext_resource type="Texture2D" path="res://assets/level4/open.png" id="open"]
+[ext_resource type="Texture2D" path="res://assets/level4/key_placeholder.svg" id="key"]
+[ext_resource type="Texture2D" path="res://assets/level4/seed_placeholder.svg" id="seed"]
+[ext_resource type="Texture2D" path="res://assets/level4/fork.png" id="fork"]
+[ext_resource type="Texture2D" path="res://assets/level4/funnel.png" id="funnel"]
+[ext_resource type="Texture2D" path="res://assets/tutorial/final/play.png" id="play"]
+[ext_resource type="Texture2D" path="res://assets/tutorial/final/reset.png" id="reset"]
+[ext_resource type="AudioStream" path="res://assets/audio/拾取.mp3" id="pickup"]
+[ext_resource type="AudioStream" path="res://assets/tutorial/final/place.wav" id="place"]
+[ext_resource type="AudioStream" path="res://assets/tutorial/final/complete.wav" id="complete"]
+[ext_resource type="PackedScene" path="res://scenes/level_select_link.tscn" id="menu"]
+[ext_resource type="PackedScene" path="res://scenes/circle_transition.tscn" id="transition"]
+
+[sub_resource type="SpriteFrames" id="cabinet_frames"]
+animations = [{"frames": [{"duration": 1.0, "texture": ExtResource("closed")}, {"duration": 1.0, "texture": ExtResource("open")}], "loop": false, "name": &"open", "speed": 3.0}]
+
+[node name="Level4" type="Node2D"]
+script = ExtResource("script")
+level_number = 4
+
+[node name="Cabinet" type="AnimatedSprite2D" parent="."]
+z_index = -10
+sprite_frames = SubResource("cabinet_frames")
+animation = &"open"
+centered = false
+
+[node name="Seed" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(575, 505)
+texture = ExtResource("seed")
+
+[node name="Rake" type="Sprite2D" parent="."]
+position = Vector2(260, 167)
+
+[node name="Shovel" type="Sprite2D" parent="."]
+position = Vector2(542, 663)
+
+[node name="Fork" type="Sprite2D" parent="."]
+position = Vector2(981, 431)
+texture = ExtResource("fork")
+script = ExtResource("item")
+item_id = &"Fork"
+
+[node name="Funnel" type="Sprite2D" parent="."]
+position = Vector2(184, 340)
+texture = ExtResource("funnel")
+script = ExtResource("item")
+item_id = &"Funnel"
+
+[node name="Ball" type="Sprite2D" parent="."]
+z_index = 4
+
+[node name="Key" type="Sprite2D" parent="."]
+z_index = 4
+texture = ExtResource("key")
+scale = Vector2(0.65, 0.65)
+
+[node name="Inventory" type="Sprite2D" parent="."]
+position = Vector2(1111, 0)
+script = ExtResource("inventory")
+
+[node name="Icon1" type="Sprite2D" parent="Inventory"]
+position = Vector2(81, 78)
+
+[node name="Icon2" type="Sprite2D" parent="Inventory"]
+position = Vector2(81, 200)
+
+[node name="Icon3" type="Sprite2D" parent="Inventory"]
+position = Vector2(81, 326)
+
+[node name="Icon4" type="Sprite2D" parent="Inventory"]
+position = Vector2(81, 450)
+
+[node name="Icon5" type="Sprite2D" parent="Inventory"]
+position = Vector2(81, 582)
+
+[node name="Icon6" type="Sprite2D" parent="Inventory"]
+position = Vector2(81, 714)
+
+[node name="PlayIcon" type="Sprite2D" parent="."]
+position = Vector2(101, 14)
+texture = ExtResource("play")
+centered = false
+
+[node name="ResetIcon" type="Sprite2D" parent="."]
+position = Vector2(29, 27)
+texture = ExtResource("reset")
+centered = false
+
+[node name="PickupSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("pickup")
+volume_db = -12.0
+
+[node name="PlaceSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("place")
+volume_db = -20.0
+
+[node name="CompleteSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("complete")
+volume_db = -20.0
+
+[node name="Transition" parent="." instance=ExtResource("transition")]
+[node name="MenuLink" parent="." instance=ExtResource("menu")]
+
+[connection signal="animation_finished" from="Cabinet" to="." method="_on_cabinet_animation_finished"]
+[connection signal="pressed" from="MenuLink/Button" to="." method="return_to_level_select"]
+[connection signal="covered" from="Transition" to="." method="_on_transition_covered"]

@@ -46,6 +46,15 @@ offset_bottom = 420.0
 level_number = 3
 level_scene = "res://scenes/level_3.tscn"
 
+[node name="Level4" parent="." instance=ExtResource("button")]
+anchors_preset = 0
+offset_left = 150.0
+offset_top = 470.0
+offset_right = 330.0
+offset_bottom = 740.0
+level_number = 4
+level_scene = "res://scenes/level_4.tscn"
+
 [node name="ResetProgress" type="TextureButton" parent="."]
 offset_left = 29.0
 offset_top = 27.0
@@ -66,3 +75,5 @@ stretch_mode = 5
 [connection signal="pressed" from="ResetProgress" to="." method="_on_reset_progress_pressed"]
 
 [connection signal="level_selected" from="Level3" to="." method="_on_level_selected"]
+
+[connection signal="level_selected" from="Level4" to="." method="_on_level_selected"]
