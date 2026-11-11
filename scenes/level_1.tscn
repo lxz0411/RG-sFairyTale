@@ -66,7 +66,7 @@ region = Rect2(865, 432, 43, 31)
 
 [node name="Level1" type="Node2D" unique_id=1388487588]
 script = ExtResource("script")
-next_level_scene = "res://scenes/level_select.tscn"
+next_level_scene = "res://scenes/level_2.tscn"
 level_number = 1
 
 [node name="Background" type="Sprite2D" parent="." unique_id=429345360]
@@ -222,3 +222,5 @@ volume_db = -22.0
 [connection signal="frame_changed" from="Butterfly/Wings" to="." method="_on_wings_frame_changed"]
 [connection signal="area_entered" from="Butterfly/StarDetector" to="." method="_on_star_detector_area_entered"]
 [connection signal="covered" from="Transition" to="." method="_on_transition_covered"]
+
+[connection signal="pressed" from="MenuLink/Button" to="." method="return_to_level_select"]

@@ -1,6 +1,6 @@
 extends "res://scripts/level_base.gd"
 signal level_passed
-@export_file("*.tscn") var next_level_scene := "res://scenes/level_select.tscn"
+@export_file("*.tscn") var next_level_scene := "res://scenes/level_3.tscn"
 enum Phase { EDIT, RUN, COMPLETE }
 const FIELD := Rect2(18,18,1080,758)
 const PIVOT := Vector2(552,520)

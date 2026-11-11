@@ -14,6 +14,13 @@ func _ready() -> void:
 func is_completed(number: int) -> bool:
 	return completed.get(number, false)
 
+func is_unlocked(number: int) -> bool:
+	if number < 0 or number > 4: return false
+	# Keep the current frontier accessible for resuming an unfinished run.
+	for previous in range(number):
+		if not is_completed(previous): return false
+	return true
+
 func complete_level(number: int) -> void:
 	if number < 0 or is_completed(number):
 		return

@@ -10,6 +10,12 @@ func _on_reset_progress_pressed() -> void:
 func _on_level_selected(scene_path: String) -> void:
 	if $Transition.visible or not destination.is_empty():
 		return
+	var allowed := false
+	for door in get_children():
+		if door.has_signal("level_selected") and door.level_scene == scene_path:
+			allowed = get_node("/root/GameProgress").is_unlocked(door.level_number)
+			break
+	if not allowed: return
 	destination = scene_path
 	$Transition.play_exit()
 

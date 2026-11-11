@@ -1,7 +1,7 @@
 extends "res://scripts/level_base.gd"
 ## Contact-driven room machinery; only clock hands and the counterweight are removable.
 signal level_passed
-@export_file("*.tscn") var next_level_scene := "res://scenes/level_select.tscn"
+@export_file("*.tscn") var next_level_scene := "res://scenes/level_4.tscn"
 enum Phase { EDIT, RUN, REWIND, COMPLETE }
 const FIELD := Rect2(18, 96, 1080, 680)
 const START := Vector2(279, 80)

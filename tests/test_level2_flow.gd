@@ -111,6 +111,7 @@ func run():
  current_scene.get_node("Transition").cancel()
  current_scene._on_reset_progress_pressed()
  check(not current_scene.get_node("Level2").completed,"Clear progress refreshes second level")
+ for prerequisite in range(2): progress.complete_level(prerequisite)
  current_scene.get_node("Level2/Door").pressed.emit()
  await current_scene.get_node("Transition").covered
  await process_frame

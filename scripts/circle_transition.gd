@@ -43,8 +43,11 @@ func play_exit() -> void:
 
 func _start_after_initial_frame(expected_animation: Tween) -> void:
 	# Render the starting state and finish scene setup before advancing the tween.
-	await get_tree().process_frame
-	await get_tree().process_frame
+	var tree := get_tree()
+	await tree.process_frame
+	if not is_inside_tree(): return
+	await tree.process_frame
+	if not is_inside_tree(): return
 	if animation == expected_animation and visible:
 		animation.play()
 

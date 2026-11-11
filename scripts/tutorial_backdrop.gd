@@ -2,7 +2,7 @@ extends "res://scripts/level_base.gd"
 
 signal crossing_completed
 
-@export_file("*.tscn") var next_level_scene := "res://scenes/tutorial_backdrop.tscn"
+@export_file("*.tscn") var next_level_scene := "res://scenes/level_1.tscn"
 @export_range(0.3, 5.0, 0.1) var stuck_timeout := 2.0
 @export_range(0.0, 5.0, 0.1) var fall_hint_delay := 1.0
 

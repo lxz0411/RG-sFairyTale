@@ -7,6 +7,7 @@ signal level_selected(scene_path: String)
 @export_file("*.tscn") var level_scene: String
 @export var complete_texture: Texture2D
 var completed := false
+var unlocked := false
 var hover_tween: Tween
 @onready var progress = get_node("/root/GameProgress")
 @onready var normal_texture: Texture2D = $Door.texture_normal
@@ -19,12 +20,18 @@ func _ready() -> void:
 func refresh() -> void:
 	$Number.text = str(display_number if display_number >= 0 else level_number)
 	completed = progress.is_completed(level_number)
+	unlocked = progress.is_unlocked(level_number)
+	$Door.disabled = not unlocked
+	$Door.modulate = Color.WHITE if unlocked else Color(0.38,0.38,0.38,0.7)
+	if not unlocked:
+		if hover_tween != null: hover_tween.kill()
+		$Door.material.set_shader_parameter("hover_amount",0.0)
 	$Door.texture_normal = complete_texture if completed else normal_texture
 	$Door.texture_hover = complete_texture if completed else hover_texture
 	$Door.texture_pressed = $Door.texture_hover
 
 func _on_mouse_entered() -> void:
-	set_hover(1.0)
+	if unlocked: set_hover(1.0)
 
 func _on_mouse_exited() -> void:
 	set_hover(0.0)
@@ -36,4 +43,4 @@ func set_hover(amount: float) -> void:
 	hover_tween.tween_property($Door.material, "shader_parameter/hover_amount", amount, 0.14)
 
 func _on_pressed() -> void:
-	level_selected.emit(level_scene)
+	if unlocked: level_selected.emit(level_scene)

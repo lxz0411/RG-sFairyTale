@@ -183,3 +183,5 @@ script = ExtResource("rewind")
 
 [connection signal="salute_finished" from="Gentleman" to="." method="_on_salute_finished"]
 [connection signal="covered" from="Transition" to="." method="_on_transition_covered"]
+
+[connection signal="pressed" from="MenuLink/Button" to="." method="return_to_level_select"]

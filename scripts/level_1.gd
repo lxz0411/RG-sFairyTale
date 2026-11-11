@@ -3,7 +3,7 @@ extends "res://scripts/level_base.gd"
 signal star_obtained
 signal level_passed
 
-@export_file("*.tscn") var next_level_scene := "res://scenes/level_1.tscn"
+@export_file("*.tscn") var next_level_scene := "res://scenes/level_2.tscn"
 @export var flight_speed := 105.0
 @export var flower_rest_duration := 1.6
 @export var petal_flight_duration := 2.8

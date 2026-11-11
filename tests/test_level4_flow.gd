@@ -99,6 +99,7 @@ func run() -> void:
 	current_scene._on_reset_progress_pressed()
 	check(not current_scene.get_node("Level4").completed, "Clear progress refreshes level 4")
 	# Exercise the actual menu signal and transition, not just the scene resource.
+	for prerequisite in range(4): progress.complete_level(prerequisite)
 	current_scene.get_node("Level4/Door").pressed.emit()
 	await current_scene.get_node("Transition").covered
 	await process_frame
